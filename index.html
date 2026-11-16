@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bintang Presentasi Kelas 5 🌟 | Penilaian Seru Antar Teman</title>
+  <title>Bintang Presentasi Kelas 6 🌟 | 6A, 6B, 6C, 6D, 6E</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Google Fonts: Fredoka (Cute & Bouncy) & Plus Jakarta Sans -->
+  <!-- Google Fonts: Fredoka & Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -14,31 +14,8 @@
   <script src="https://unpkg.com/lucide@latest"></script>
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <!-- Canvas Confetti untuk Efek Lucu saat Kirim Nilai -->
+  <!-- Canvas Confetti -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
-  
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            fredoka: ['Fredoka', 'cursive', 'sans-serif'],
-            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-          },
-          colors: {
-            ceria: {
-              kuning: '#FBBF24',
-              orange: '#F97316',
-              pink: '#EC4899',
-              ungu: '#8B5CF6',
-              biru: '#0EA5E9',
-              hijau: '#10B981',
-            }
-          }
-        }
-      }
-    }
-  </script>
 
   <style>
     body {
@@ -71,6 +48,12 @@
       box-shadow: 0 6px 15px -3px rgba(139, 92, 246, 0.25);
       transform: translateY(-3px) scale(1.03);
     }
+    .class-btn-active {
+      background: linear-gradient(135deg, #7C3AED 0%, #4F46E5 100%);
+      color: white !important;
+      box-shadow: 0 4px 12px rgba(124, 58, 237, 0.35);
+      transform: scale(1.05);
+    }
     @media print {
       .no-print { display: none !important; }
       .print-only { display: block !important; }
@@ -80,34 +63,34 @@
 </head>
 <body class="min-h-screen flex flex-col text-slate-800">
 
-  <!-- Header Lucu & Ceria -->
-  <header class="bg-white/90 backdrop-blur-md border-b-2 border-indigo-100 sticky top-0 z-40 no-print shadow-sm">
+  <!-- Header Utama -->
+  <header class="bg-white/95 backdrop-blur-md border-b-2 border-indigo-100 sticky top-0 z-40 no-print shadow-sm">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 h-18 py-2 flex items-center justify-between">
       
       <!-- Logo & Judul -->
       <div class="flex items-center space-x-3">
-        <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-400 via-orange-400 to-pink-500 flex items-center justify-center text-white shadow-lg shadow-orange-300/50 text-2xl animate-bounce">
+        <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-tr from-amber-400 via-orange-400 to-pink-500 flex items-center justify-center text-white shadow-lg shadow-orange-300/50 text-2xl animate-bounce">
           ⭐
         </div>
         <div>
           <div class="flex items-center space-x-2">
-            <h1 class="text-xl sm:text-2xl font-black font-cute tracking-wide bg-gradient-to-r from-violet-600 via-pink-600 to-amber-500 bg-clip-text text-transparent">
+            <h1 class="text-lg sm:text-2xl font-black font-cute tracking-wide bg-gradient-to-r from-violet-600 via-pink-600 to-amber-500 bg-clip-text text-transparent">
               Bintang Presentasi
             </h1>
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-pink-100 text-pink-700 font-cute border border-pink-200">
-              Kelas 5 SD 🚀
+            <span id="current-class-badge" class="px-2.5 py-0.5 rounded-full text-xs font-black bg-pink-100 text-pink-700 font-cute border border-pink-200">
+              Kelas 6A 🚀
             </span>
           </div>
-          <p class="text-xs text-slate-400 font-medium hidden sm:block">Penilaian Antar Teman Jadi Seru & Menyenangkan!</p>
+          <p class="text-xs text-slate-400 font-medium hidden sm:block">Penilaian Antar Teman 5 Kelas (6A - 6E)</p>
         </div>
       </div>
 
       <!-- Navigasi & Status Cloud -->
       <div class="flex items-center space-x-2 sm:space-x-3">
         <!-- Status Google Sheets -->
-        <button onclick="openCloudModal()" id="cloud-status-badge" class="hidden sm:flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-bold border-2 transition border-slate-200 bg-slate-50 text-slate-600 hover:border-violet-300 font-cute">
-          <span class="w-2.5 h-2.5 rounded-full bg-slate-400" id="cloud-dot"></span>
-          <span id="cloud-text">Sheets: Offline</span>
+        <button onclick="openCloudModal()" id="cloud-status-badge" class="hidden sm:flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-bold border-2 transition border-emerald-200 bg-emerald-50 text-emerald-800 hover:border-emerald-300 font-cute">
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" id="cloud-dot"></span>
+          <span id="cloud-text">Sheets: Terhubung</span>
         </button>
 
         <nav class="flex items-center p-1 bg-violet-100/80 rounded-2xl border border-violet-200">
@@ -124,10 +107,39 @@
     </div>
   </header>
 
+  <!-- BAR PEMILIHAN KELAS (6A, 6B, 6C, 6D, 6E) -->
+  <div class="bg-gradient-to-r from-violet-600 via-indigo-600 to-pink-500 py-3 px-4 shadow-md no-print text-white">
+    <div class="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div class="flex items-center space-x-2">
+        <span class="text-xl">🏫</span>
+        <span class="font-cute font-bold text-sm tracking-wide">Pilih Kelasmu Saat Ini:</span>
+      </div>
+      
+      <!-- Tombol Pilihan 5 Kelas -->
+      <div class="flex items-center space-x-2 overflow-x-auto py-1 px-1">
+        <button onclick="selectClass('6A')" id="btn-class-6A" class="class-btn-active bouncy-btn px-4 py-1.5 rounded-xl text-xs font-cute font-extrabold bg-white/20 text-white hover:bg-white/30 border border-white/30 transition">
+          Kelas 6A
+        </button>
+        <button onclick="selectClass('6B')" id="btn-class-6B" class="bouncy-btn px-4 py-1.5 rounded-xl text-xs font-cute font-extrabold bg-white/20 text-white hover:bg-white/30 border border-white/30 transition">
+          Kelas 6B
+        </button>
+        <button onclick="selectClass('6C')" id="btn-class-6C" class="bouncy-btn px-4 py-1.5 rounded-xl text-xs font-cute font-extrabold bg-white/20 text-white hover:bg-white/30 border border-white/30 transition">
+          Kelas 6C
+        </button>
+        <button onclick="selectClass('6D')" id="btn-class-6D" class="bouncy-btn px-4 py-1.5 rounded-xl text-xs font-cute font-extrabold bg-white/20 text-white hover:bg-white/30 border border-white/30 transition">
+          Kelas 6D
+        </button>
+        <button onclick="selectClass('6E')" id="btn-class-6E" class="bouncy-btn px-4 py-1.5 rounded-xl text-xs font-cute font-extrabold bg-white/20 text-white hover:bg-white/30 border border-white/30 transition">
+          Kelas 6E
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- Kontainer Konten Utama -->
   <main class="max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-8 flex-1 w-full space-y-6">
     
-    <!-- Toast Pemberitahuan Lucu -->
+    <!-- Toast Notifikasi Lucu -->
     <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none flex items-center space-x-3 px-5 py-4 rounded-2xl shadow-2xl bg-slate-900 text-white text-sm font-bold border-2 border-amber-400">
       <span id="toast-emoji" class="text-2xl">🎉</span>
       <span id="toast-msg" class="font-cute text-base">Pesan notifikasi</span>
@@ -138,20 +150,19 @@
       
       <!-- Banner Sambutan Ceria -->
       <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-violet-600 via-indigo-600 to-pink-500 p-6 sm:p-8 text-white shadow-xl shadow-indigo-300/40">
-        <!-- Dekorasi Background -->
         <div class="absolute -right-4 -bottom-4 text-7xl sm:text-8xl opacity-20 pointer-events-none select-none">
           🎨🎯🚀
         </div>
         <div class="relative z-10 max-w-2xl">
           <div class="inline-flex items-center space-x-2 px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-xs font-cute font-bold text-amber-200 mb-3 border border-white/30">
             <span>🌈</span>
-            <span>Misi Penilaian Presentasi Kelompok</span>
+            <span id="banner-class-title">Penilaian Presentasi Kelas 6A</span>
           </div>
           <h2 class="text-2xl sm:text-4xl font-black font-cute tracking-wide leading-tight">
-            Ayo Beri Bintang & Semangat untuk Temanmu! 🌟
+            Beri Bintang & Apresiasi untuk Temanmu! 🌟
           </h2>
           <p class="mt-2 text-indigo-100 text-xs sm:text-sm leading-relaxed">
-            Daftarkan kelompokmu terlebih dahulu atau berikan penilaian terbaik untuk kelompok teman yang sedang maju di depan kelas.
+            Setiap siswa menilai kelompok yang sedang tampil di depan kelas. Suaramu membantu menaikkan nilai dan menyemangati teman sekelas!
           </p>
         </div>
       </div>
@@ -182,7 +193,7 @@
             <span class="text-3xl">📝</span>
             <div>
               <span class="px-2.5 py-0.5 rounded-full text-[11px] font-cute font-bold bg-emerald-100 text-emerald-800 uppercase">
-                Pendaftaran Mandiri Siswa
+                Pendaftaran Kelompok <span id="reg-badge-class">Kelas 6A</span>
               </span>
               <h3 class="text-xl font-black font-cute text-slate-900 mt-0.5">Daftarkan Kelompokmu di Sini</h3>
             </div>
@@ -193,32 +204,44 @@
         </div>
 
         <form onsubmit="handleStudentRegisterGroup(event)" class="space-y-5">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <label class="block text-xs font-extrabold text-slate-700 uppercase font-cute tracking-wide mb-1.5">
+                Kelas <span class="text-rose-500">*</span>
+              </label>
+              <select id="reg-group-class" required class="w-full px-4 py-3 rounded-2xl border-2 border-slate-200 focus:border-emerald-500 text-sm outline-none font-bold bg-slate-50">
+                <option value="6A">Kelas 6A</option>
+                <option value="6B">Kelas 6B</option>
+                <option value="6C">Kelas 6C</option>
+                <option value="6D">Kelas 6D</option>
+                <option value="6E">Kelas 6E</option>
+              </select>
+            </div>
             <div>
               <label class="block text-xs font-extrabold text-slate-700 uppercase font-cute tracking-wide mb-1.5">
                 Nama Kelompok <span class="text-rose-500">*</span>
               </label>
-              <input type="text" id="reg-group-name" required placeholder="Contoh: Kelompok 1 (atau Tim Garuda)" class="w-full px-4 py-3 rounded-2xl border-2 border-slate-200 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100 text-sm outline-none transition font-medium">
+              <input type="text" id="reg-group-name" required placeholder="Contoh: Kelompok 1 (atau Tim Garuda)" class="w-full px-4 py-3 rounded-2xl border-2 border-slate-200 focus:border-emerald-500 text-sm outline-none transition font-medium">
             </div>
             <div>
               <label class="block text-xs font-extrabold text-slate-700 uppercase font-cute tracking-wide mb-1.5">
-                Topik / Judul Presentasi <span class="text-rose-500">*</span>
+                Topik Presentasi <span class="text-rose-500">*</span>
               </label>
-              <input type="text" id="reg-group-topic" required placeholder="Contoh: Mengenal Ekosistem Hutan Hujan" class="w-full px-4 py-3 rounded-2xl border-2 border-slate-200 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100 text-sm outline-none transition font-medium">
+              <input type="text" id="reg-group-topic" required placeholder="Contoh: Energi Alternatif Masa Depan" class="w-full px-4 py-3 rounded-2xl border-2 border-slate-200 focus:border-emerald-500 text-sm outline-none transition font-medium">
             </div>
           </div>
 
           <div>
             <label class="block text-xs font-extrabold text-slate-700 uppercase font-cute tracking-wide mb-1.5">
-              Daftar Nama Anggota Kelompok <span class="text-rose-500">*</span>
+              Daftar Anggota Kelompok <span class="text-rose-500">*</span>
             </label>
-            <input type="text" id="reg-group-members" required placeholder="Contoh: Andi, Bella, Citra, Doni (pisahkan dengan koma)" class="w-full px-4 py-3 rounded-2xl border-2 border-slate-200 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100 text-sm outline-none transition font-medium">
-            <p class="text-[11px] text-slate-400 mt-1.5">Tulis nama teman-teman sekelompokmu agar guru dan teman lain tahu siapa saja anggotanya.</p>
+            <input type="text" id="reg-group-members" required placeholder="Contoh: Andi, Bella, Citra, Doni (pisahkan dengan koma)" class="w-full px-4 py-3 rounded-2xl border-2 border-slate-200 focus:border-emerald-500 text-sm outline-none transition font-medium">
+            <p class="text-[11px] text-slate-400 mt-1.5">Tulis nama lengkap/panggilan seluruh anggota kelompokmu.</p>
           </div>
 
           <div class="pt-3 flex flex-col sm:flex-row items-center justify-between gap-3">
-            <span class="text-xs text-slate-400 font-cute italic">✨ Otomatis muncul di pilihan seluruh kelas & Google Sheets guru!</span>
-            <button type="submit" id="btn-reg-group-submit" class="bouncy-btn w-full sm:w-auto px-7 py-3 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-cute font-bold text-sm rounded-2xl shadow-lg shadow-emerald-200 flex items-center justify-center space-x-2">
+            <span class="text-xs text-slate-400 font-cute italic">✨ Kelompokmu akan otomatis muncul di daftar kelasmu!</span>
+            <button type="submit" id="btn-reg-group-submit" class="bouncy-btn w-full sm:w-auto px-7 py-3 bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-cute font-bold text-sm rounded-2xl shadow-lg shadow-emerald-200 flex items-center justify-center space-x-2">
               <span>🚀</span>
               <span id="btn-reg-text">Daftarkan Kelompok Saya</span>
             </button>
@@ -235,7 +258,7 @@
             <label class="block text-xs font-extrabold text-slate-700 uppercase font-cute tracking-wide mb-1.5">
               Nama Kamu (Penilai) <span class="text-rose-500">*</span>
             </label>
-            <input type="text" id="reviewer-name" required placeholder="Tulis namamu di sini..." class="w-full px-4 py-3 rounded-2xl border-2 border-slate-200 focus:border-violet-500 focus:ring-4 focus:ring-violet-100 text-sm outline-none transition font-medium">
+            <input type="text" id="reviewer-name" required placeholder="Tulis namamu..." class="w-full px-4 py-3 rounded-2xl border-2 border-slate-200 focus:border-violet-500 text-sm outline-none transition font-medium">
           </div>
 
           <div>
@@ -247,23 +270,23 @@
                 + Daftar Baru
               </button>
             </div>
-            <select id="reviewer-group" required onchange="filterTargetGroups()" class="w-full px-4 py-3 rounded-2xl border-2 border-slate-200 focus:border-violet-500 focus:ring-4 focus:ring-violet-100 text-sm outline-none transition font-medium bg-white">
+            <select id="reviewer-group" required onchange="filterTargetGroups()" class="w-full px-4 py-3 rounded-2xl border-2 border-slate-200 focus:border-violet-500 text-sm outline-none transition font-medium bg-white">
               <option value="">-- Pilih Kelompok Asalmu --</option>
             </select>
-            <p class="text-[11px] text-slate-400 mt-1">Kamu tidak bisa menilai kelompokmu sendiri ya!</p>
+            <p class="text-[11px] text-slate-400 mt-1">Sistem menjaga agar kamu tidak menilai kelompok sendiri.</p>
           </div>
 
           <div>
             <div class="flex items-center justify-between mb-1.5">
               <label class="block text-xs font-extrabold text-slate-700 uppercase font-cute tracking-wide">
-                Kelompok yang Sedang Maju <span class="text-rose-500">*</span>
+                Kelompok yang Maju Sekarang <span class="text-rose-500">*</span>
               </label>
               <button type="button" onclick="syncFromGoogleSheets()" class="text-[11px] font-cute font-bold text-blue-600 hover:underline flex items-center space-x-1">
                 <i data-lucide="refresh-cw" class="w-3 h-3"></i>
                 <span>Cek Baru</span>
               </button>
             </div>
-            <select id="target-group" required onchange="updateTargetGroupInfo()" class="w-full px-4 py-3 rounded-2xl border-2 border-slate-200 focus:border-violet-500 focus:ring-4 focus:ring-violet-100 text-sm outline-none transition font-medium bg-white">
+            <select id="target-group" required onchange="updateTargetGroupInfo()" class="w-full px-4 py-3 rounded-2xl border-2 border-slate-200 focus:border-violet-500 text-sm outline-none transition font-medium bg-white">
               <option value="">-- Pilih Kelompok yang Dinilai --</option>
             </select>
             <div id="target-group-meta" class="text-xs text-violet-700 font-cute font-semibold mt-1.5"></div>
@@ -277,7 +300,7 @@
               <span class="text-2xl">🏆</span>
               <div>
                 <h3 class="text-lg font-black font-cute text-slate-900">2 Kriteria Penilaian Presentasi</h3>
-                <p class="text-xs text-slate-500">Pilih bintang yang paling pantas untuk kelompok yang maju!</p>
+                <p class="text-xs text-slate-500">Beri bintang terbaik untuk kelompok yang sedang tampil!</p>
               </div>
             </div>
             <div class="px-3 py-1 bg-gradient-to-r from-amber-100 to-orange-100 text-amber-800 rounded-full font-cute font-bold text-xs border border-amber-200">
@@ -287,14 +310,12 @@
 
           <!-- Kriteria 1: Kekompakan & Pembagian Peran -->
           <div class="p-5 rounded-3xl bg-amber-50/70 border-2 border-amber-200/80 space-y-3">
-            <div class="flex items-start justify-between">
-              <div>
-                <span class="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-cute font-bold bg-amber-200 text-amber-900 mb-1">
-                  Kriteria 1 🤝
-                </span>
-                <h4 class="text-base font-black font-cute text-slate-900">Kekompakan & Pembagian Peran Anggota</h4>
-                <p class="text-xs text-slate-600 mt-0.5">Semua anggota kelompok aktif berbicara, saling mendukung, dan tidak ada yang diam saja.</p>
-              </div>
+            <div>
+              <span class="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-cute font-bold bg-amber-200 text-amber-900 mb-1">
+                Kriteria 1 🤝
+              </span>
+              <h4 class="text-base font-black font-cute text-slate-900">Kekompakan & Pembagian Peran Anggota</h4>
+              <p class="text-xs text-slate-600 mt-0.5">Semua anggota aktif berbicara, saling mendukung, dan kompak di depan kelas.</p>
             </div>
 
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-1">
@@ -335,14 +356,12 @@
 
           <!-- Kriteria 2: Penguasaan Materi & Kejelasan -->
           <div class="p-5 rounded-3xl bg-blue-50/70 border-2 border-blue-200/80 space-y-3">
-            <div class="flex items-start justify-between">
-              <div>
-                <span class="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-cute font-bold bg-blue-200 text-blue-900 mb-1">
-                  Kriteria 2 🎤
-                </span>
-                <h4 class="text-base font-black font-cute text-slate-900">Penguasaan Materi & Kejelasan Penyampaian</h4>
-                <p class="text-xs text-slate-600 mt-0.5">Penjelasan runtut, suara lantang, percaya diri, dan mudah dipahami teman sekelas.</p>
-              </div>
+            <div>
+              <span class="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-cute font-bold bg-blue-200 text-blue-900 mb-1">
+                Kriteria 2 🎤
+              </span>
+              <h4 class="text-base font-black font-cute text-slate-900">Penguasaan Materi & Kejelasan Penyampaian</h4>
+              <p class="text-xs text-slate-600 mt-0.5">Penjelasan runtut, suara lantang, percaya diri, dan mudah dipahami teman sekelas.</p>
             </div>
 
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-1">
@@ -382,25 +401,25 @@
           </div>
         </div>
 
-        <!-- Kolom Masukan / Feedback Kasih Semangat -->
+        <!-- Feedback / Catatan Kasih Semangat -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 border-t-2 border-slate-100">
           <div>
             <label class="block text-xs font-extrabold text-slate-700 uppercase font-cute tracking-wide mb-1.5 flex items-center space-x-1.5">
               <span>💖</span>
               <span>Hal yang Paling Keren / Kamu Sukai</span>
             </label>
-            <textarea id="feedback-pro" rows="2" placeholder="Contoh: Slidenya bagus sekali dan suaranya terdengar jelas sampai belakang..." class="w-full px-4 py-3 rounded-2xl border-2 border-slate-200 focus:border-pink-500 focus:ring-4 focus:ring-pink-100 text-sm outline-none transition font-medium resize-none"></textarea>
+            <textarea id="feedback-pro" rows="2" placeholder="Contoh: Slidenya bagus sekali dan suaranya terdengar jelas..." class="w-full px-4 py-3 rounded-2xl border-2 border-slate-200 focus:border-pink-500 text-sm outline-none transition font-medium resize-none"></textarea>
           </div>
           <div>
             <label class="block text-xs font-extrabold text-slate-700 uppercase font-cute tracking-wide mb-1.5 flex items-center space-x-1.5">
               <span>💡</span>
               <span>Saran Sahabat untuk Kelompok Ini</span>
             </label>
-            <textarea id="feedback-con" rows="2" placeholder="Contoh: Ke depannya jangan terlalu cepat ya bicaranya..." class="w-full px-4 py-3 rounded-2xl border-2 border-slate-200 focus:border-amber-500 focus:ring-4 focus:ring-amber-100 text-sm outline-none transition font-medium resize-none"></textarea>
+            <textarea id="feedback-con" rows="2" placeholder="Contoh: Bicaranya bisa lebih santai dan tidak usah gugup ya..." class="w-full px-4 py-3 rounded-2xl border-2 border-slate-200 focus:border-amber-500 text-sm outline-none transition font-medium resize-none"></textarea>
           </div>
         </div>
 
-        <!-- Bar Kirim Nilai dengan Live Counter -->
+        <!-- Bar Kirim Nilai -->
         <div class="bg-gradient-to-r from-violet-100 via-pink-100 to-amber-100 border-2 border-violet-200 rounded-3xl p-5 sm:p-6 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm">
           <div class="flex items-center space-x-4">
             <div class="w-12 h-12 rounded-2xl bg-white flex items-center justify-center text-2xl shadow-sm border border-violet-200">
@@ -418,21 +437,21 @@
             </div>
           </div>
           
-          <button type="submit" id="btn-submit-vote" class="bouncy-btn w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-violet-600 via-indigo-600 to-pink-600 hover:from-violet-700 hover:to-pink-700 text-white font-cute font-bold text-base rounded-2xl shadow-lg shadow-indigo-300/50 flex items-center justify-center space-x-2">
+          <button type="submit" id="btn-submit-vote" class="bouncy-btn w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-violet-600 via-indigo-600 to-pink-600 text-white font-cute font-bold text-base rounded-2xl shadow-lg shadow-indigo-300/50 flex items-center justify-center space-x-2">
             <span>🎉</span>
             <span id="btn-submit-text">Kirim Penilaian</span>
           </button>
         </div>
       </form>
 
-      <!-- Riwayat Suara Siswa -->
+      <!-- Riwayat Suara Siswa di Kelas Ini -->
       <div class="cute-card rounded-3xl p-6">
         <h3 class="text-sm font-black font-cute text-slate-800 mb-3 flex items-center space-x-2">
           <span>📜</span>
-          <span>Suara Penilaian yang Sudah Kamu Kirim</span>
+          <span>Suara Penilaian yang Sudah Kamu Kirim di <span id="history-class-label" class="text-violet-600 font-black">Kelas 6A</span></span>
         </h3>
         <div id="student-submitted-list" class="divide-y divide-slate-100 text-sm">
-          <p class="text-xs text-slate-400 py-3 text-center font-cute">Belum ada penilaian yang dikirim dari perangkat ini.</p>
+          <p class="text-xs text-slate-400 py-3 text-center font-cute">Belum ada penilaian yang dikirim di kelas ini.</p>
         </div>
       </div>
     </section>
@@ -455,7 +474,7 @@
                 Otomatis
               </span>
             </div>
-            <p class="text-xs text-slate-500 mb-4">Pembagian porsi nilai Guru vs Nilai Teman:</p>
+            <p class="text-xs text-slate-500 mb-4">Porsi nilai Guru vs Nilai Teman:</p>
             
             <div class="space-y-3">
               <div class="flex items-center justify-between text-xs font-cute font-bold">
@@ -468,11 +487,11 @@
           </div>
         </div>
 
-        <!-- Ringkasan Statistik Kelas -->
+        <!-- Ringkasan Statistik Kelas Terpilih -->
         <div class="cute-card rounded-3xl p-6 flex flex-col justify-between border-2 border-amber-100">
           <div class="grid grid-cols-2 gap-3">
             <div class="p-3.5 rounded-2xl bg-amber-50 border border-amber-200">
-              <span class="text-xs text-amber-800 font-cute font-bold">Total Kelompok</span>
+              <span class="text-xs text-amber-800 font-cute font-bold">Kelompok (<span class="teacher-class-tag">6A</span>)</span>
               <h4 id="stat-total-groups" class="text-2xl font-black font-cute text-amber-900 mt-1">0</h4>
             </div>
             <div class="p-3.5 rounded-2xl bg-violet-50 border border-violet-200">
@@ -494,7 +513,7 @@
           <div class="flex items-center justify-between">
             <h3 class="text-sm font-black font-cute text-slate-900 flex items-center space-x-1.5">
               <span>⚡</span>
-              <span>Aksi & Integrasi</span>
+              <span>Aksi & Unduh Rekap</span>
             </h3>
             <button onclick="openCloudModal()" class="text-xs text-indigo-600 font-cute font-bold hover:underline flex items-center space-x-1">
               <i data-lucide="sheet" class="w-3.5 h-3.5"></i>
@@ -505,7 +524,7 @@
           <div class="grid grid-cols-2 gap-2">
             <button onclick="exportToCSV()" class="bouncy-btn px-3 py-2.5 rounded-2xl border-2 border-slate-200 hover:bg-slate-50 text-slate-700 font-cute font-bold text-xs flex items-center justify-center space-x-1.5">
               <span>📊</span>
-              <span>Unduh Excel</span>
+              <span>Unduh Excel (<span class="teacher-class-tag">6A</span>)</span>
             </button>
             <button onclick="window.print()" class="bouncy-btn px-3 py-2.5 rounded-2xl border-2 border-slate-200 hover:bg-slate-50 text-slate-700 font-cute font-bold text-xs flex items-center justify-center space-x-1.5">
               <span>🖨️</span>
@@ -513,17 +532,17 @@
             </button>
             <button onclick="openManageGroupsModal()" class="bouncy-btn px-3 py-2.5 rounded-2xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-cute font-bold text-xs flex items-center justify-center space-x-1.5 col-span-2 border border-indigo-200">
               <span>⚙️</span>
-              <span>Kelola Daftar Kelompok</span>
+              <span>Kelola Kelompok (<span class="teacher-class-tag">6A</span>)</span>
             </button>
           </div>
         </div>
       </div>
 
-      <!-- GRAFIK KOMPARASI -->
+      <!-- GRAFIK KOMPARASI KELAS -->
       <div class="cute-card rounded-3xl p-6 no-print">
         <h3 class="text-base font-black font-cute text-slate-900 mb-4 flex items-center space-x-2">
           <span>📈</span>
-          <span>Grafik Perbandingan Nilai Kelompok</span>
+          <span>Grafik Perbandingan Nilai Kelompok di <span class="teacher-class-tag font-black text-indigo-600">Kelas 6A</span></span>
         </h3>
         <div class="h-64 sm:h-72 w-full">
           <canvas id="scoreComparisonChart"></canvas>
@@ -536,7 +555,7 @@
           <div>
             <h3 class="text-lg font-black font-cute text-slate-900 flex items-center space-x-2">
               <span>🏅</span>
-              <span>Rekapitulasi Nilai Akhir Presentasi</span>
+              <span>Rekap Nilai Presentasi <span class="teacher-class-tag text-violet-700 font-black">Kelas 6A</span></span>
             </h3>
             <p class="text-xs text-slate-500 font-medium">Nilai Akhir = 60% Nilai Guru + 40% Rata-rata Nilai Teman</p>
           </div>
@@ -569,7 +588,7 @@
       <div class="cute-card rounded-3xl p-6">
         <h3 class="text-base font-black font-cute text-slate-900 mb-4 flex items-center space-x-2">
           <span>💬</span>
-          <span>Semua Komentar & Pujian dari Siswa</span>
+          <span>Semua Komentar Pujian & Saran di <span class="teacher-class-tag text-violet-700 font-black">Kelas 6A</span></span>
         </h3>
         <div id="all-feedbacks-container" class="space-y-3 max-h-96 overflow-y-auto pr-2">
           <!-- Render via JS -->
@@ -594,24 +613,19 @@
       </div>
 
       <div class="text-xs text-slate-600 space-y-2 bg-emerald-50 border-2 border-emerald-200 p-4 rounded-2xl">
-        <p class="font-cute font-bold text-emerald-900 text-sm">Kenapa menghubungkan Google Sheets?</p>
-        <p>Agar seluruh siswa yang membuka web lewat HP masing-masing suaranya otomatis masuk ke 1 spreadsheet milik Anda secara terpusat!</p>
+        <p class="font-cute font-bold text-emerald-900 text-sm">Status Database Otomatis Aktif</p>
+        <p>Seluruh suara dari 5 kelas (6A, 6B, 6C, 6D, 6E) akan langsung masuk dan tersimpan terpusat ke Spreadsheet Anda!</p>
       </div>
 
       <div class="space-y-3">
         <label class="block text-xs font-cute font-bold text-slate-700 uppercase">URL Web App Google Apps Script</label>
-        <input type="url" id="sheets-web-app-url" oninput="handleUrlInput(this.value)" placeholder="Tempel URL berakhiran /exec di sini..." class="w-full px-4 py-3 text-xs rounded-2xl border-2 border-slate-200 outline-none focus:border-emerald-500 font-mono">
-        <div id="url-validation-warning" class="hidden text-xs text-rose-600 bg-rose-50 p-3 rounded-xl border border-rose-200 font-medium font-cute"></div>
-        <p class="text-[11px] text-slate-400">Pastikan URL yang ditempel berakhiran <span class="font-bold text-emerald-700">/exec</span>.</p>
+        <input type="url" id="sheets-web-app-url" value="https://script.google.com/macros/s/AKfycbxOHTJ0tv8lMxm7QGBVWC3k8uYFZ9ykH_JR7Q51eaokxycP0EIRqOqAHoSvb980a2-c/exec" class="w-full px-4 py-3 text-xs rounded-2xl border-2 border-slate-200 outline-none focus:border-emerald-500 font-mono" readonly>
+        <p class="text-[11px] text-emerald-700 font-cute font-bold">✓ Link Google Sheets Guru sudah terpasang permanen.</p>
       </div>
 
-      <div class="flex items-center justify-between pt-3 border-t-2 border-slate-100">
-        <button onclick="saveGoogleSheetsUrl(true)" id="btn-save-cloud" class="bouncy-btn px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl text-xs font-cute font-bold shadow-md shadow-emerald-200 flex items-center space-x-2">
-          <span>💾</span>
-          <span>Simpan & Hubungkan</span>
-        </button>
-        <button onclick="disconnectGoogleSheets()" class="bouncy-btn text-xs text-rose-500 hover:text-rose-700 font-cute font-bold">
-          Putuskan Hubungan
+      <div class="flex items-center justify-end pt-3 border-t-2 border-slate-100">
+        <button onclick="closeCloudModal()" class="bouncy-btn px-6 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-2xl text-xs font-cute font-bold">
+          Tutup
         </button>
       </div>
     </div>
@@ -623,7 +637,7 @@
       <div class="flex items-center justify-between pb-3 border-b-2 border-slate-100">
         <h3 class="text-lg font-black font-cute text-slate-900 flex items-center space-x-2">
           <span>👥</span>
-          <span>Kelola Daftar Kelompok</span>
+          <span>Kelola Kelompok (<span class="teacher-class-tag">6A</span>)</span>
         </h3>
         <button onclick="closeManageGroupsModal()" class="bouncy-btn text-slate-400 hover:text-slate-600 p-1">
           <i data-lucide="x" class="w-5 h-5"></i>
@@ -632,28 +646,28 @@
 
       <!-- Form Tambah Kelompok oleh Guru -->
       <form onsubmit="handleAddNewGroup(event)" class="space-y-3 p-4 bg-violet-50/70 rounded-2xl border-2 border-violet-100">
-        <h4 class="text-xs font-cute font-bold text-violet-900 uppercase">Tambah Kelompok dari Meja Guru</h4>
+        <h4 class="text-xs font-cute font-bold text-violet-900 uppercase">Tambah Kelompok ke <span class="teacher-class-tag">6A</span></h4>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
           <input type="text" id="new-group-name" required placeholder="Nama Kelompok" class="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 outline-none focus:border-violet-500 font-medium">
-          <input type="text" id="new-group-topic" placeholder="Judul Materi" class="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 outline-none focus:border-violet-500 font-medium">
+          <input type="text" id="new-group-topic" placeholder="Topik Presentasi" class="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 outline-none focus:border-violet-500 font-medium">
         </div>
         <input type="text" id="new-group-members" placeholder="Nama Anggota (pisahkan dengan koma)" class="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 outline-none focus:border-violet-500 font-medium">
         <button type="submit" class="bouncy-btn w-full py-2.5 bg-violet-600 hover:bg-violet-700 text-white rounded-xl text-xs font-cute font-bold transition">
-          + Tambahkan Kelompok
+          + Tambahkan Kelompok ke Kelas Ini
         </button>
       </form>
 
-      <!-- Daftar Kelompok Saat Ini -->
+      <!-- Daftar Kelompok Saat Ini di Kelas Terpilih -->
       <div class="space-y-2">
-        <h4 class="text-xs font-cute font-bold text-slate-700 uppercase">Kelompok yang Sedang Terdaftar</h4>
+        <h4 class="text-xs font-cute font-bold text-slate-700 uppercase">Kelompok Terdaftar di <span class="teacher-class-tag">6A</span></h4>
         <div id="modal-groups-list" class="max-h-56 overflow-y-auto space-y-2 pr-1">
           <!-- Render via JS -->
         </div>
       </div>
 
       <div class="pt-3 border-t-2 border-slate-100 flex justify-between items-center">
-        <button onclick="resetAllDataConfirm()" class="bouncy-btn text-xs text-rose-600 hover:text-rose-800 font-cute font-bold">
-          🗑️ Bersihkan Semua Data
+        <button onclick="resetClassDataConfirm()" class="bouncy-btn text-xs text-rose-600 hover:text-rose-800 font-cute font-bold">
+          🗑️ Bersihkan Data Kelas <span class="teacher-class-tag">6A</span>
         </button>
         <button onclick="closeManageGroupsModal()" class="bouncy-btn px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-cute font-bold rounded-xl">
           Tutup
@@ -665,34 +679,26 @@
   <!-- Footer Ceria -->
   <footer class="bg-white/80 border-t-2 border-indigo-100 py-4 mt-auto no-print text-center">
     <div class="max-w-6xl mx-auto px-4 text-xs font-cute font-semibold text-slate-400">
-      Bintang Presentasi Kelas 5 &copy; 2026. Belajar Kolaborasi & Menghargai Teman! 💖
+      Bintang Presentasi Kelas 6 (6A, 6B, 6C, 6D, 6E) &copy; 2026. Belajar Kolaborasi & Apresiasi Teman! 💖
     </div>
   </footer>
 
-  <!-- SCRIPT LOGIKA APLIKASI -->
+  <!-- SCRIPT LOGIKA APLIKASI (MULTI-KELAS 6A-6E) -->
   <script>
     const STORAGE_KEY_GROUPS = 'eval_groups_data';
     const STORAGE_KEY_VOTES = 'eval_votes_data';
     const STORAGE_KEY_CONFIG = 'eval_config_data';
+    const STORAGE_KEY_CURRENT_CLASS = 'eval_selected_class';
     const STORAGE_KEY_SHEETS_URL = 'eval_sheets_url';
 
-    // URL Google Sheets Guru Ditancapkan Secara Permanen!
+    // Link Google Sheets Guru Permanen
     const DEFAULT_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbxOHTJ0tv8lMxm7QGBVWC3k8uYFZ9ykH_JR7Q51eaokxycP0EIRqOqAHoSvb980a2-c/exec';
 
-    // Awal mula kosong dan bersih
-    const DEFAULT_GROUPS = [];
-
-    let groups = JSON.parse(localStorage.getItem(STORAGE_KEY_GROUPS)) || DEFAULT_GROUPS;
+    let currentClass = localStorage.getItem(STORAGE_KEY_CURRENT_CLASS) || '6A';
+    let groups = JSON.parse(localStorage.getItem(STORAGE_KEY_GROUPS)) || [];
     let votes = JSON.parse(localStorage.getItem(STORAGE_KEY_VOTES)) || [];
     let config = JSON.parse(localStorage.getItem(STORAGE_KEY_CONFIG)) || { teacherWeight: 60, peerWeight: 40 };
-    if (config.teacherWeight === 70 && config.peerWeight === 30) {
-      config = { teacherWeight: 60, peerWeight: 40 };
-      localStorage.setItem(STORAGE_KEY_CONFIG, JSON.stringify(config));
-    }
-    
-    // Gunakan URL permanen sebagai default agar status selamanya HIJAU (Terhubung)
     let sheetsUrl = DEFAULT_SHEETS_URL;
-    localStorage.setItem(STORAGE_KEY_SHEETS_URL, DEFAULT_SHEETS_URL);
 
     let chartInstance = null;
 
@@ -700,6 +706,43 @@
       localStorage.setItem(STORAGE_KEY_GROUPS, JSON.stringify(groups));
       localStorage.setItem(STORAGE_KEY_VOTES, JSON.stringify(votes));
       localStorage.setItem(STORAGE_KEY_CONFIG, JSON.stringify(config));
+      localStorage.setItem(STORAGE_KEY_CURRENT_CLASS, currentClass);
+    }
+
+    // Fungsi Mengganti Kelas (6A, 6B, 6C, 6D, 6E)
+    function selectClass(className) {
+      currentClass = className;
+      localStorage.setItem(STORAGE_KEY_CURRENT_CLASS, currentClass);
+
+      // Perbarui tampilan tombol kelas aktif
+      ['6A', '6B', '6C', '6D', '6E'].forEach(c => {
+        const btn = document.getElementById('btn-class-' + c);
+        if (btn) {
+          if (c === className) {
+            btn.className = 'class-btn-active bouncy-btn px-4 py-1.5 rounded-xl text-xs font-cute font-extrabold bg-white/20 text-white hover:bg-white/30 border border-white/30 transition';
+          } else {
+            btn.className = 'bouncy-btn px-4 py-1.5 rounded-xl text-xs font-cute font-extrabold bg-white/20 text-white hover:bg-white/30 border border-white/30 transition';
+          }
+        }
+      });
+
+      // Perbarui label-label kelas di seluruh layar
+      document.getElementById('current-class-badge').innerText = `Kelas ${className} 🚀`;
+      document.getElementById('banner-class-title').innerText = `Penilaian Presentasi Kelas ${className}`;
+      document.getElementById('reg-badge-class').innerText = `Kelas ${className}`;
+      document.getElementById('reg-group-class').value = className;
+      document.getElementById('history-class-label').innerText = `Kelas ${className}`;
+
+      document.querySelectorAll('.teacher-class-tag').forEach(el => {
+        el.innerText = className;
+      });
+
+      // Muat ulang dropdown dan tabel sesuai kelas terpilih
+      populateDropdowns();
+      renderStudentHistory();
+      renderTeacherDashboard();
+
+      showToast(`Beralih ke Kelas ${className}`, '🏫');
     }
 
     function switchTab(tab) {
@@ -745,6 +788,7 @@
 
     async function handleStudentRegisterGroup(e) {
       e.preventDefault();
+      const targetClass = document.getElementById('reg-group-class').value || currentClass;
       const name = document.getElementById('reg-group-name').value.trim();
       const topic = document.getElementById('reg-group-topic').value.trim();
       const members = document.getElementById('reg-group-members').value.trim();
@@ -756,6 +800,7 @@
 
       const newGroup = {
         id: 'g_' + Date.now(),
+        className: targetClass,
         name,
         topic,
         members,
@@ -766,37 +811,39 @@
       saveData();
 
       const btnText = document.getElementById('btn-reg-text');
-      if (sheetsUrl) {
-        btnText.innerText = 'Menyimpan...';
-        try {
-          await fetch(sheetsUrl, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-            body: JSON.stringify({ action: 'registerGroup', group: newGroup })
-          });
-        } catch (err) {
-          console.warn('Sync pendaftaran offline:', err);
-        } finally {
-          btnText.innerText = 'Daftarkan Kelompok Saya';
-        }
+      btnText.innerText = 'Menyimpan...';
+      try {
+        await fetch(sheetsUrl, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ action: 'registerGroup', group: newGroup })
+        });
+      } catch (err) {
+        console.warn('Sync offline:', err);
+      } finally {
+        btnText.innerText = 'Daftarkan Kelompok Saya';
       }
 
       document.getElementById('reg-group-name').value = '';
       document.getElementById('reg-group-topic').value = '';
       document.getElementById('reg-group-members').value = '';
 
-      populateDropdowns();
+      // Pastikan kelas aktif sesuai kelompok yang baru didaftarkan
+      if (currentClass !== targetClass) {
+        selectClass(targetClass);
+      } else {
+        populateDropdowns();
+      }
+
       const reviewerSelect = document.getElementById('reviewer-group');
       if (reviewerSelect) {
         reviewerSelect.value = newGroup.id;
         filterTargetGroups();
       }
 
-      // Ledakan Confetti Lucu!
       triggerConfetti();
-
-      showToast(`Hore! ${name} berhasil didaftarkan!`, '🎉');
+      showToast(`Hore! ${name} (${targetClass}) berhasil didaftarkan!`, '🎉');
       toggleStudentSubMode('vote');
     }
 
@@ -824,56 +871,12 @@
       }
     }
 
-    function updateCloudStatusUI() {
-      const dot = document.getElementById('cloud-dot');
-      const text = document.getElementById('cloud-text');
-      if (sheetsUrl && sheetsUrl.trim() !== '') {
-        dot.className = 'w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse';
-        text.innerText = 'Sheets: Terhubung';
-      } else {
-        dot.className = 'w-2.5 h-2.5 rounded-full bg-slate-400';
-        text.innerText = 'Sheets: Offline';
-      }
-    }
-
     function openCloudModal() {
-      const savedUrl = sheetsUrl || localStorage.getItem(STORAGE_KEY_SHEETS_URL) || '';
-      const inputEl = document.getElementById('sheets-web-app-url');
-      if (inputEl) {
-        inputEl.value = savedUrl;
-        handleUrlInput(savedUrl);
-      }
       document.getElementById('modal-cloud-setup').classList.remove('hidden');
     }
 
     function closeCloudModal() {
       document.getElementById('modal-cloud-setup').classList.add('hidden');
-    }
-
-    function handleUrlInput(val) {
-      const warnBox = document.getElementById('url-validation-warning');
-      const cleanVal = (val || '').trim();
-      if (cleanVal) {
-        localStorage.setItem(STORAGE_KEY_SHEETS_URL, cleanVal);
-        sheetsUrl = cleanVal;
-      }
-      if (cleanVal.includes('docs.google.com/spreadsheets')) {
-        warnBox.innerHTML = '⚠️ <b>Perhatian:</b> Ini link dokumen biasa. Gunakan <b>URL Web App</b> berakhiran <b>/exec</b>.';
-        warnBox.classList.remove('hidden');
-      } else {
-        warnBox.classList.add('hidden');
-      }
-    }
-
-    function disconnectGoogleSheets() {
-      sheetsUrl = '';
-      localStorage.removeItem(STORAGE_KEY_SHEETS_URL);
-      const inputEl = document.getElementById('sheets-web-app-url');
-      if (inputEl) inputEl.value = '';
-      document.getElementById('url-validation-warning').classList.add('hidden');
-      updateCloudStatusUI();
-      closeCloudModal();
-      showToast('Koneksi Google Sheets diputuskan.', '🔌');
     }
 
     function requestGoogleSheets(url) {
@@ -921,57 +924,7 @@
       });
     }
 
-    async function saveGoogleSheetsUrl() {
-      const inputUrl = document.getElementById('sheets-web-app-url').value.trim();
-      if (!inputUrl) {
-        showToast('Tempelkan URL Web App Google Apps Script.', '⚠️');
-        return;
-      }
-      sheetsUrl = inputUrl;
-      localStorage.setItem(STORAGE_KEY_SHEETS_URL, sheetsUrl);
-      updateCloudStatusUI();
-
-      showToast('Menyambungkan ke Google Sheets...', '⏳');
-      try {
-        const data = await requestGoogleSheets(inputUrl);
-        if (data && data.status === 'success') {
-          if (data.groups && data.groups.length > 0) {
-            groups = data.groups;
-            populateDropdowns();
-          }
-          if (data.votes) {
-            votes = data.votes.map((v, i) => ({
-              id: 'sv_' + i,
-              reviewerName: v.reviewerName,
-              reviewerGroupName: v.reviewerGroup,
-              reviewerGroupId: getGroupIdByName(v.reviewerGroup),
-              targetGroupName: v.targetGroup,
-              targetGroupId: getGroupIdByName(v.targetGroup),
-              scores: v.scores,
-              totalScore: v.totalScore,
-              score100: v.score100,
-              proFeedback: v.proFeedback,
-              conFeedback: v.conFeedback,
-              timestamp: v.timestamp ? new Date(v.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : '-'
-            }));
-          }
-          saveData();
-          renderTeacherDashboard();
-          showToast('Tersambung ke Google Sheets!', '🎉');
-        } else {
-          showToast('URL tersimpan!', '✅');
-        }
-      } catch (err) {
-        showToast('URL tersimpan! Siap digunakan.', '✅');
-      }
-      closeCloudModal();
-    }
-
     async function syncFromGoogleSheets() {
-      if (!sheetsUrl) {
-        openCloudModal();
-        return;
-      }
       const syncIcon = document.getElementById('sync-icon');
       if (syncIcon) syncIcon.classList.add('animate-spin');
 
@@ -980,11 +933,11 @@
         if (data && data.status === 'success') {
           if (data.groups && data.groups.length > 0) {
             groups = data.groups;
-            populateDropdowns();
           }
           if (data.votes) {
             votes = data.votes.map((v, i) => ({
               id: 'sv_' + i,
+              className: v.className || '6A',
               reviewerName: v.reviewerName,
               reviewerGroupName: v.reviewerGroup,
               reviewerGroupId: getGroupIdByName(v.reviewerGroup),
@@ -999,24 +952,32 @@
             }));
           }
           saveData();
+          populateDropdowns();
+          renderStudentHistory();
           renderTeacherDashboard();
-          showToast(`Data terbaru masuk! (${votes.length} suara)`, '✨');
+          showToast(`Data kelas terbaru berhasil ditarik!`, '✨');
         }
       } catch (err) {
-        showToast('Gagal memuat data online.', '⚠️');
+        console.warn(err);
       } finally {
         if (syncIcon) syncIcon.classList.remove('animate-spin');
       }
     }
 
+    // Mendapatkan kelompok KHUSUS kelas aktif
+    function getCurrentClassGroups() {
+      return groups.filter(g => (g.className || '6A') === currentClass);
+    }
+
     function populateDropdowns() {
+      const classGroups = getCurrentClassGroups();
       const revGroupSel = document.getElementById('reviewer-group');
       const targetGroupSel = document.getElementById('target-group');
       const prevRev = revGroupSel.value;
       const prevTarget = targetGroupSel.value;
 
-      revGroupSel.innerHTML = '<option value="">-- Pilih Kelompok Asalmu --</option>';
-      groups.forEach(g => {
+      revGroupSel.innerHTML = `<option value="">-- Pilih Kelompok Asalmu (${currentClass}) --</option>`;
+      classGroups.forEach(g => {
         revGroupSel.innerHTML += `<option value="${g.id}">⭐ ${g.name}</option>`;
       });
       if (prevRev) revGroupSel.value = prevRev;
@@ -1025,11 +986,12 @@
     }
 
     function filterTargetGroups(selectedTargetId = null) {
+      const classGroups = getCurrentClassGroups();
       const revGroupId = document.getElementById('reviewer-group').value;
       const targetGroupSel = document.getElementById('target-group');
       
-      targetGroupSel.innerHTML = '<option value="">-- Pilih Kelompok yang Dinilai --</option>';
-      groups.forEach(g => {
+      targetGroupSel.innerHTML = `<option value="">-- Pilih Kelompok yang Dinilai (${currentClass}) --</option>`;
+      classGroups.forEach(g => {
         if (g.id !== revGroupId) {
           targetGroupSel.innerHTML += `<option value="${g.id}">🎯 ${g.name} - ${g.topic || 'Presentasi'}</option>`;
         }
@@ -1050,7 +1012,7 @@
       }
       const g = groups.find(x => x.id === targetId);
       if (g) {
-        metaContainer.innerText = `👥 Anggota: ${g.members || 'Belum diisi'}`;
+        metaContainer.innerText = `👥 Anggota (${g.className || currentClass}): ${g.members || 'Belum diisi'}`;
       }
     }
 
@@ -1063,7 +1025,6 @@
         }
       }
       document.getElementById('live-total-score').innerText = total;
-      // Konversi skala 100: (total / 8) * 100
       const scale100 = ((total / 8) * 100).toFixed(1);
       document.getElementById('live-scale-score').innerText = scale100;
     }
@@ -1077,6 +1038,19 @@
       if (reviewerGroupId === targetGroupId) {
         showToast('Tidak bisa menilai kelompok sendiri ya!', '🚫');
         return;
+      }
+
+      // Cek apakah siswa ini sudah pernah menilai kelompok target ini sebelumnya (Cegah Suara Ganda)
+      const alreadyVoted = votes.some(v => 
+        (v.className || '6A') === currentClass &&
+        v.reviewerName.toLowerCase() === reviewerName.toLowerCase() &&
+        v.targetGroupId === targetGroupId
+      );
+
+      if (alreadyVoted) {
+        if (!confirm(`Kamu sudah pernah mengirim nilai untuk kelompok ini. Apakah ingin tetap mengirim penilaian lagi?`)) {
+          return;
+        }
       }
 
       const scores = [];
@@ -1101,6 +1075,7 @@
 
       const newVote = {
         id: 'v_' + Date.now(),
+        className: currentClass,
         reviewerName,
         reviewerGroupId,
         reviewerGroupName,
@@ -1117,27 +1092,23 @@
       votes.push(newVote);
       saveData();
 
-      if (sheetsUrl) {
-        const submitBtnText = document.getElementById('btn-submit-text');
-        submitBtnText.innerText = 'Mengirim...';
-        try {
-          await fetch(sheetsUrl, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-            body: JSON.stringify({ action: 'submitVote', vote: newVote })
-          });
-        } catch (err) {
-          console.warn('Sync vote error:', err);
-        } finally {
-          submitBtnText.innerText = 'Kirim Penilaian';
-        }
+      const submitBtnText = document.getElementById('btn-submit-text');
+      submitBtnText.innerText = 'Mengirim...';
+      try {
+        await fetch(sheetsUrl, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ action: 'submitVote', vote: newVote })
+        });
+      } catch (err) {
+        console.warn('Sync vote error:', err);
+      } finally {
+        submitBtnText.innerText = 'Kirim Penilaian';
       }
 
-      // Ledakan Confetti Bintang!
       triggerConfetti();
-
-      showToast(`Bintang untuk ${targetGroupName} berhasil dikirim!`, '🌟');
+      showToast(`Bintang untuk ${targetGroupName} (${currentClass}) terkirim!`, '🌟');
 
       document.getElementById('peer-form').reset();
       calculateLiveStudentScore();
@@ -1158,12 +1129,14 @@
 
     function renderStudentHistory() {
       const container = document.getElementById('student-submitted-list');
-      if (votes.length === 0) {
-        container.innerHTML = '<p class="text-xs text-slate-400 py-3 text-center font-cute">Belum ada penilaian yang dikirim dari perangkat ini.</p>';
+      const classVotes = votes.filter(v => (v.className || '6A') === currentClass);
+      
+      if (classVotes.length === 0) {
+        container.innerHTML = `<p class="text-xs text-slate-400 py-3 text-center font-cute">Belum ada penilaian yang kamu kirim di Kelas ${currentClass}.</p>`;
         return;
       }
 
-      container.innerHTML = votes.slice(-5).reverse().map(v => `
+      container.innerHTML = classVotes.slice(-6).reverse().map(v => `
         <div class="py-2.5 flex items-center justify-between font-cute">
           <div>
             <div class="font-bold text-slate-800 text-xs">⭐ ${v.reviewerName} <span class="text-slate-400 font-normal">menilai</span> ${v.targetGroupName || getGroupName(v.targetGroupId)}</div>
@@ -1176,7 +1149,7 @@
       `).join('');
     }
 
-    // ==================== DASHBOARD GURU & REKAP ====================
+    // ==================== DASHBOARD GURU & REKAP KELAS ====================
     function updateWeights(val) {
       const teacherW = parseInt(val, 10);
       const peerW = 100 - teacherW;
@@ -1198,16 +1171,14 @@
         renderRecapTable();
         updateChart();
 
-        if (sheetsUrl) {
-          try {
-            fetch(sheetsUrl, {
-              method: 'POST',
-              mode: 'no-cors',
-              headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-              body: JSON.stringify({ action: 'updateTeacherScore', groupId: g.id, teacherScore: g.teacherScore })
-            });
-          } catch(e) {}
-        }
+        try {
+          fetch(sheetsUrl, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify({ action: 'updateTeacherScore', groupId: g.id, teacherScore: g.teacherScore })
+          });
+        } catch(e) {}
       }
     }
 
@@ -1222,7 +1193,6 @@
       }
       const teacherScore = g && g.teacherScore !== undefined ? g.teacherScore : 0;
       
-      // Rumus 60% Guru : 40% Teman
       const finalScore = parseFloat(
         ((config.teacherWeight / 100 * teacherScore) + (config.peerWeight / 100 * peerAvg)).toFixed(1)
       );
@@ -1248,8 +1218,11 @@
       document.getElementById('weight-teacher-val').innerText = config.teacherWeight;
       document.getElementById('weight-peer-val').innerText = config.peerWeight;
 
-      document.getElementById('stat-total-groups').innerText = groups.length;
-      document.getElementById('stat-total-votes').innerText = votes.length;
+      const classGroups = getCurrentClassGroups();
+      const classVotes = votes.filter(v => (v.className || '6A') === currentClass);
+
+      document.getElementById('stat-total-groups').innerText = classGroups.length;
+      document.getElementById('stat-total-votes').innerText = classVotes.length;
 
       renderRecapTable();
       renderFeedbacksList();
@@ -1258,12 +1231,14 @@
 
     function renderRecapTable() {
       const tbody = document.getElementById('recap-table-body');
-      if (groups.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" class="py-8 text-center text-xs text-slate-400 font-cute">✨ Belum ada kelompok yang terdaftar. Siswa dapat mendaftarkan kelompoknya di Ruang Siswa!</td></tr>`;
+      const classGroups = getCurrentClassGroups();
+
+      if (classGroups.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" class="py-8 text-center text-xs text-slate-400 font-cute">✨ Belum ada kelompok di Kelas ${currentClass}. Siswa dapat mendaftarkan kelompoknya di Ruang Siswa!</td></tr>`;
         return;
       }
 
-      tbody.innerHTML = groups.map(g => {
+      tbody.innerHTML = classGroups.map(g => {
         const stats = calculateGroupStats(g.id);
         return `
           <tr class="hover:bg-violet-50/50 transition-colors">
@@ -1306,13 +1281,15 @@
 
     function renderFeedbacksList(filterGroupId = null) {
       const container = document.getElementById('all-feedbacks-container');
+      const classVotes = votes.filter(v => (v.className || '6A') === currentClass);
       const g = filterGroupId ? groups.find(x => x.id === filterGroupId) : null;
+      
       const list = filterGroupId 
-        ? votes.filter(v => v.targetGroupId === filterGroupId || (g && v.targetGroupName && v.targetGroupName.toLowerCase() === g.name.toLowerCase())) 
-        : votes;
+        ? classVotes.filter(v => v.targetGroupId === filterGroupId || (g && v.targetGroupName && v.targetGroupName.toLowerCase() === g.name.toLowerCase())) 
+        : classVotes;
 
       if (list.length === 0) {
-        container.innerHTML = `<p class="text-xs text-slate-400 py-4 text-center font-cute">Belum ada saran atau komentar tertulis.</p>`;
+        container.innerHTML = `<p class="text-xs text-slate-400 py-4 text-center font-cute">Belum ada saran atau komentar tertulis di Kelas ${currentClass}.</p>`;
         return;
       }
 
@@ -1338,10 +1315,11 @@
       const ctx = document.getElementById('scoreComparisonChart');
       if (!ctx) return;
 
-      const labels = groups.map(g => g.name);
-      const teacherScores = groups.map(g => calculateGroupStats(g.id).teacherScore);
-      const peerScores = groups.map(g => calculateGroupStats(g.id).peerAvg);
-      const finalScores = groups.map(g => calculateGroupStats(g.id).finalScore);
+      const classGroups = getCurrentClassGroups();
+      const labels = classGroups.map(g => g.name);
+      const teacherScores = classGroups.map(g => calculateGroupStats(g.id).teacherScore);
+      const peerScores = classGroups.map(g => calculateGroupStats(g.id).peerAvg);
+      const finalScores = classGroups.map(g => calculateGroupStats(g.id).finalScore);
 
       if (chartInstance) {
         chartInstance.destroy();
@@ -1395,12 +1373,14 @@
     }
 
     function exportToCSV() {
+      const classGroups = getCurrentClassGroups();
       let csvContent = "data:text/csv;charset=utf-8,";
-      csvContent += "ID Kelompok,Nama Kelompok,Topik Presentasi,Anggota,Jumlah Penilai,Rata-rata Nilai Teman (NT),Nilai Guru (NG),Nilai Akhir (NA),Predikat\r\n";
+      csvContent += `Kelas,ID Kelompok,Nama Kelompok,Topik Presentasi,Anggota,Jumlah Penilai,Nilai Teman (40%),Nilai Guru (60%),Nilai Akhir (NA),Predikat\r\n`;
 
-      groups.forEach(g => {
+      classGroups.forEach(g => {
         const stats = calculateGroupStats(g.id);
         const row = [
+          `"${g.className || currentClass}"`,
           `"${g.id}"`,
           `"${g.name}"`,
           `"${(g.topic || '').replace(/"/g, '""')}"`,
@@ -1417,11 +1397,11 @@
       const encodedUri = encodeURI(csvContent);
       const link = document.createElement("a");
       link.setAttribute("href", encodedUri);
-      link.setAttribute("download", `Rekap_Nilai_Presentasi_${new Date().toISOString().slice(0,10)}.csv`);
+      link.setAttribute("download", `Rekap_Nilai_Kelas_${currentClass}_${new Date().toISOString().slice(0,10)}.csv`);
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      showToast("Berhasil mengunduh rekap Excel!", '📊');
+      showToast(`Rekap Excel Kelas ${currentClass} terunduh!`, '📊');
     }
 
     function openManageGroupsModal() {
@@ -1437,11 +1417,13 @@
 
     function renderModalGroupsList() {
       const container = document.getElementById('modal-groups-list');
-      if (groups.length === 0) {
-        container.innerHTML = `<p class="text-xs text-slate-400 py-2 font-cute">Belum ada kelompok yang terdaftar.</p>`;
+      const classGroups = getCurrentClassGroups();
+
+      if (classGroups.length === 0) {
+        container.innerHTML = `<p class="text-xs text-slate-400 py-2 font-cute">Belum ada kelompok di Kelas ${currentClass}.</p>`;
         return;
       }
-      container.innerHTML = groups.map((g) => `
+      container.innerHTML = classGroups.map((g) => `
         <div class="flex items-center justify-between p-3 rounded-2xl border-2 border-slate-100 bg-white font-cute">
           <div>
             <div class="text-xs font-black text-slate-900">⭐ ${g.name} <span class="font-normal text-slate-500">(${g.topic || 'Tanpa Topik'})</span></div>
@@ -1463,6 +1445,7 @@
 
       const newGroup = {
         id: 'g_' + Date.now(),
+        className: currentClass,
         name,
         topic,
         members,
@@ -1477,7 +1460,9 @@
       document.getElementById('new-group-members').value = '';
 
       renderModalGroupsList();
-      showToast(`Kelompok ${name} berhasil ditambah!`, '✨');
+      populateDropdowns();
+      renderTeacherDashboard();
+      showToast(`Kelompok ${name} ditambahkan ke Kelas ${currentClass}!`, '✨');
     }
 
     function deleteGroup(id) {
@@ -1486,30 +1471,27 @@
         votes = votes.filter(v => v.targetGroupId !== id && v.reviewerGroupId !== id);
         saveData();
         renderModalGroupsList();
+        populateDropdowns();
+        renderTeacherDashboard();
         showToast('Kelompok dihapus.', '🗑️');
       }
     }
 
-    function resetAllDataConfirm() {
-      if (confirm('Hapus SEMUA data kelompok dan nilai agar benar-benar bersih?')) {
-        localStorage.clear();
-        groups = DEFAULT_GROUPS;
-        votes = [];
-        config = { teacherWeight: 60, peerWeight: 40 };
-        sheetsUrl = DEFAULT_SHEETS_URL;
+    function resetClassDataConfirm() {
+      if (confirm(`Hapus data khusus Kelas ${currentClass}? Data kelas lain tetap aman.`)) {
+        groups = groups.filter(g => (g.className || '6A') !== currentClass);
+        votes = votes.filter(v => (v.className || '6A') !== currentClass);
         saveData();
-        updateCloudStatusUI();
-        closeManageGroupsModal();
-        showToast('Seluruh data berhasil dibersihkan!', '🧹');
+        renderModalGroupsList();
+        populateDropdowns();
+        renderTeacherDashboard();
+        showToast(`Data Kelas ${currentClass} berhasil dibersihkan!`, '🧹');
       }
     }
 
     window.addEventListener('DOMContentLoaded', () => {
-      populateDropdowns();
-      renderStudentHistory();
-      updateCloudStatusUI();
+      selectClass(currentClass);
       lucide.createIcons();
-      // Otomatis tarik kelompok dan nilai terbaru dari Google Sheets saat web dibuka
       syncFromGoogleSheets();
     });
   </script>
