@@ -713,7 +713,7 @@
 
       <form onsubmit="handleTeacherLogin(event)" class="space-y-3 pt-2">
         <div>
-          <input type="password" id="input-teacher-pin" inputmode="numeric" maxlength="10" placeholder="Ketik PIN Guru (Default: 1234)" class="w-full text-center px-4 py-3 text-base tracking-widest font-bold rounded-2xl border-2 border-slate-200 outline-none focus:border-violet-500 focus:ring-4 focus:ring-violet-100 transition" autocomplete="off">
+          <input type="password" id="input-teacher-pin" inputmode="numeric" maxlength="10" placeholder="Masukkan PIN Rahasia..." class="w-full text-center px-4 py-3 text-base tracking-widest font-bold rounded-2xl border-2 border-slate-200 outline-none focus:border-violet-500 focus:ring-4 focus:ring-violet-100 transition" autocomplete="off">
           <p id="pin-error-msg" class="text-xs text-rose-500 font-cute font-bold mt-1.5 hidden">❌ PIN salah, coba lagi!</p>
         </div>
 
@@ -726,7 +726,7 @@
           </button>
         </div>
       </form>
-      <p class="text-[11px] text-slate-400">PIN bawaan awal: <span class="font-bold text-slate-600">1234</span> (bisa diubah nanti).</p>
+      <p class="text-[11px] text-slate-400 font-cute">🔒 Hanya Guru yang memiliki PIN yang dapat mengakses Meja Guru.</p>
     </div>
   </div>
 
@@ -831,7 +831,13 @@
     const SESSION_KEY_AUTH = 'eval_teacher_auth_session';
 
     function getTeacherPin() {
-      return localStorage.getItem(STORAGE_KEY_TEACHER_PIN) || '1234';
+      const pin = localStorage.getItem(STORAGE_KEY_TEACHER_PIN);
+      // Default PIN Guru: 003734 (Otomatis migrasi jika masih default 1234)
+      if (!pin || pin === '1234') {
+        localStorage.setItem(STORAGE_KEY_TEACHER_PIN, '003734');
+        return '003734';
+      }
+      return pin;
     }
 
     function isTeacherAuthenticated() {
