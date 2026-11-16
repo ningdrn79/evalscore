@@ -676,6 +676,9 @@
     const STORAGE_KEY_CONFIG = 'eval_config_data';
     const STORAGE_KEY_SHEETS_URL = 'eval_sheets_url';
 
+    // URL Google Sheets Guru Ditancapkan Secara Permanen!
+    const DEFAULT_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbxOHTJ0tv8lMxm7QGBVWC3k8uYFZ9ykH_JR7Q51eaokxycP0EIRqOqAHoSvb980a2-c/exec';
+
     // Awal mula kosong dan bersih
     const DEFAULT_GROUPS = [];
 
@@ -686,7 +689,10 @@
       config = { teacherWeight: 60, peerWeight: 40 };
       localStorage.setItem(STORAGE_KEY_CONFIG, JSON.stringify(config));
     }
-    let sheetsUrl = localStorage.getItem(STORAGE_KEY_SHEETS_URL) || '';
+    
+    // Gunakan URL permanen sebagai default agar status selamanya HIJAU (Terhubung)
+    let sheetsUrl = DEFAULT_SHEETS_URL;
+    localStorage.setItem(STORAGE_KEY_SHEETS_URL, DEFAULT_SHEETS_URL);
 
     let chartInstance = null;
 
@@ -1490,7 +1496,7 @@
         groups = DEFAULT_GROUPS;
         votes = [];
         config = { teacherWeight: 60, peerWeight: 40 };
-        sheetsUrl = '';
+        sheetsUrl = DEFAULT_SHEETS_URL;
         saveData();
         updateCloudStatusUI();
         closeManageGroupsModal();
@@ -1503,6 +1509,8 @@
       renderStudentHistory();
       updateCloudStatusUI();
       lucide.createIcons();
+      // Otomatis tarik kelompok dan nilai terbaru dari Google Sheets saat web dibuka
+      syncFromGoogleSheets();
     });
   </script>
 </body>
