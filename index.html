@@ -98,9 +98,10 @@
             <span>✨</span>
             <span>Ruang Siswa</span>
           </button>
-          <button id="tab-btn-teacher" onclick="switchTab('teacher')" class="bouncy-btn flex items-center space-x-1.5 px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-cute font-bold transition-all text-violet-600 hover:text-violet-900">
+          <button id="tab-btn-teacher" onclick="requestTeacherAccess()" class="bouncy-btn flex items-center space-x-1.5 px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-cute font-bold transition-all text-violet-600 hover:text-violet-900">
             <span>👑</span>
             <span>Meja Guru</span>
+            <span id="nav-lock-badge" class="text-[10px] bg-violet-200 text-violet-800 px-1.5 py-0.5 rounded-full font-bold">🔒</span>
           </button>
         </nav>
       </div>
@@ -459,6 +460,29 @@
     <!-- ==================== VIEW 2: MEJA GURU (DASHBOARD) ==================== -->
     <section id="view-teacher" class="hidden space-y-6">
       
+      <!-- Banner Status Meja Guru & Tombol Kunci -->
+      <div class="cute-card rounded-3xl p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-3 border-2 border-amber-200 bg-gradient-to-r from-amber-50 via-purple-50 to-pink-50 no-print">
+        <div class="flex items-center space-x-3 text-center sm:text-left">
+          <div class="w-10 h-10 rounded-2xl bg-amber-400 text-white flex items-center justify-center text-xl shadow-md">
+            👑
+          </div>
+          <div>
+            <h2 class="text-sm sm:text-base font-black font-cute text-slate-800">Meja Guru: Penilaian & Rekap Nilai (<span class="teacher-class-tag">6A</span>)</h2>
+            <p class="text-xs text-slate-500 font-medium">Area ini terproteksi PIN agar nilai dan rekap aman dari siswa.</p>
+          </div>
+        </div>
+        <div class="flex items-center space-x-2">
+          <button onclick="openChangePinModal()" class="bouncy-btn px-3 py-1.5 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 font-cute font-bold text-xs flex items-center space-x-1.5 shadow-sm">
+            <span>🔐</span>
+            <span>Ubah PIN</span>
+          </button>
+          <button onclick="lockTeacherDashboard()" class="bouncy-btn px-3.5 py-1.5 rounded-xl bg-rose-500 hover:bg-rose-600 text-white font-cute font-bold text-xs flex items-center space-x-1.5 shadow-md shadow-rose-200">
+            <span>🔒</span>
+            <span>Kunci & Keluar</span>
+          </button>
+        </div>
+      </div>
+      
       <!-- Top Control Bar Guru -->
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-5 no-print">
         
@@ -676,6 +700,64 @@
     </div>
   </div>
 
+  <!-- MODAL: LOGIN / PIN GURU -->
+  <div id="modal-teacher-login" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+    <div class="cute-card rounded-3xl w-full max-w-sm p-6 space-y-4 animate-in fade-in zoom-in duration-150 text-center">
+      <div class="w-14 h-14 mx-auto rounded-2xl bg-gradient-to-tr from-amber-400 to-violet-600 flex items-center justify-center text-white shadow-lg shadow-purple-300 text-3xl">
+        👑
+      </div>
+      <div>
+        <h3 class="text-lg font-black font-cute text-slate-800">Meja Guru (Terkunci)</h3>
+        <p class="text-xs text-slate-500 mt-1 font-medium">Hanya untuk Guru. Masukkan PIN untuk membuka rekap & penilaian.</p>
+      </div>
+
+      <form onsubmit="handleTeacherLogin(event)" class="space-y-3 pt-2">
+        <div>
+          <input type="password" id="input-teacher-pin" inputmode="numeric" maxlength="10" placeholder="Ketik PIN Guru (Default: 1234)" class="w-full text-center px-4 py-3 text-base tracking-widest font-bold rounded-2xl border-2 border-slate-200 outline-none focus:border-violet-500 focus:ring-4 focus:ring-violet-100 transition" autocomplete="off">
+          <p id="pin-error-msg" class="text-xs text-rose-500 font-cute font-bold mt-1.5 hidden">❌ PIN salah, coba lagi!</p>
+        </div>
+
+        <div class="flex items-center space-x-2 pt-2">
+          <button type="button" onclick="closeTeacherLoginModal()" class="bouncy-btn flex-1 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-xl text-xs font-cute font-bold">
+            Batal
+          </button>
+          <button type="submit" class="bouncy-btn flex-1 py-2.5 bg-gradient-to-r from-violet-600 to-indigo-600 text-white rounded-xl text-xs font-cute font-bold shadow-md shadow-violet-200">
+            Buka Kunci 🔓
+          </button>
+        </div>
+      </form>
+      <p class="text-[11px] text-slate-400">PIN bawaan awal: <span class="font-bold text-slate-600">1234</span> (bisa diubah nanti).</p>
+    </div>
+  </div>
+
+  <!-- MODAL: UBAH PIN GURU -->
+  <div id="modal-change-pin" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+    <div class="cute-card rounded-3xl w-full max-w-sm p-6 space-y-4 animate-in fade-in zoom-in duration-150 text-center">
+      <div class="w-12 h-12 mx-auto rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center text-2xl">
+        🔐
+      </div>
+      <div>
+        <h3 class="text-base font-black font-cute text-slate-800">Ubah PIN Guru</h3>
+        <p class="text-xs text-slate-500 font-medium">Buat PIN baru agar hanya Anda yang bisa membuka Meja Guru.</p>
+      </div>
+
+      <form onsubmit="handleChangeTeacherPin(event)" class="space-y-3 pt-1 text-left">
+        <div>
+          <label class="block text-[11px] font-cute font-bold text-slate-700 mb-1">PIN BARU (MINIMAL 3 DIGIT)</label>
+          <input type="password" id="input-new-pin" inputmode="numeric" maxlength="10" required placeholder="Contoh: 5678" class="w-full text-center px-4 py-2.5 text-sm font-bold rounded-xl border border-slate-200 outline-none focus:border-violet-500">
+        </div>
+        <div>
+          <label class="block text-[11px] font-cute font-bold text-slate-700 mb-1">ULANGI PIN BARU</label>
+          <input type="password" id="input-confirm-pin" inputmode="numeric" maxlength="10" required placeholder="Ulangi PIN baru" class="w-full text-center px-4 py-2.5 text-sm font-bold rounded-xl border border-slate-200 outline-none focus:border-violet-500">
+        </div>
+        <div class="flex items-center space-x-2 pt-2">
+          <button type="button" onclick="closeChangePinModal()" class="bouncy-btn flex-1 py-2.5 bg-slate-100 text-slate-600 rounded-xl text-xs font-cute font-bold">Batal</button>
+          <button type="submit" class="bouncy-btn flex-1 py-2.5 bg-violet-600 text-white rounded-xl text-xs font-cute font-bold shadow-md shadow-violet-200">Simpan PIN</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- Footer Ceria -->
   <footer class="bg-white/80 border-t-2 border-indigo-100 py-4 mt-auto no-print text-center">
     <div class="max-w-6xl mx-auto px-4 text-xs font-cute font-semibold text-slate-400">
@@ -745,11 +827,116 @@
       showToast(`Beralih ke Kelas ${className}`, '🏫');
     }
 
+    const STORAGE_KEY_TEACHER_PIN = 'eval_teacher_pin';
+    const SESSION_KEY_AUTH = 'eval_teacher_auth_session';
+
+    function getTeacherPin() {
+      return localStorage.getItem(STORAGE_KEY_TEACHER_PIN) || '1234';
+    }
+
+    function isTeacherAuthenticated() {
+      return sessionStorage.getItem(SESSION_KEY_AUTH) === 'true';
+    }
+
+    function requestTeacherAccess() {
+      if (isTeacherAuthenticated()) {
+        switchTab('teacher');
+      } else {
+        openTeacherLoginModal();
+      }
+    }
+
+    function openTeacherLoginModal() {
+      const pinInput = document.getElementById('input-teacher-pin');
+      pinInput.value = '';
+      document.getElementById('pin-error-msg').classList.add('hidden');
+      document.getElementById('modal-teacher-login').classList.remove('hidden');
+      setTimeout(() => pinInput.focus(), 150);
+    }
+
+    function closeTeacherLoginModal() {
+      document.getElementById('modal-teacher-login').classList.add('hidden');
+    }
+
+    function handleTeacherLogin(e) {
+      e.preventDefault();
+      const enteredPin = document.getElementById('input-teacher-pin').value.trim();
+      const actualPin = getTeacherPin();
+
+      if (enteredPin === actualPin) {
+        sessionStorage.setItem(SESSION_KEY_AUTH, 'true');
+        closeTeacherLoginModal();
+        updateLockBadge();
+        switchTab('teacher');
+        showToast('Meja Guru berhasil dibuka! 👑', '🔓');
+      } else {
+        document.getElementById('pin-error-msg').classList.remove('hidden');
+        const pinInput = document.getElementById('input-teacher-pin');
+        pinInput.focus();
+        pinInput.select();
+      }
+    }
+
+    function lockTeacherDashboard() {
+      sessionStorage.removeItem(SESSION_KEY_AUTH);
+      updateLockBadge();
+      switchTab('student');
+      showToast('Meja Guru dikunci kembali 🔒', '👑');
+    }
+
+    function updateLockBadge() {
+      const badge = document.getElementById('nav-lock-badge');
+      if (badge) {
+        if (isTeacherAuthenticated()) {
+          badge.innerText = '🔓';
+          badge.className = 'text-[10px] bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded-full font-bold';
+        } else {
+          badge.innerText = '🔒';
+          badge.className = 'text-[10px] bg-violet-200 text-violet-800 px-1.5 py-0.5 rounded-full font-bold';
+        }
+      }
+    }
+
+    function openChangePinModal() {
+      document.getElementById('input-new-pin').value = '';
+      document.getElementById('input-confirm-pin').value = '';
+      document.getElementById('modal-change-pin').classList.remove('hidden');
+      setTimeout(() => document.getElementById('input-new-pin').focus(), 150);
+    }
+
+    function closeChangePinModal() {
+      document.getElementById('modal-change-pin').classList.add('hidden');
+    }
+
+    function handleChangeTeacherPin(e) {
+      e.preventDefault();
+      const newPin = document.getElementById('input-new-pin').value.trim();
+      const confirmPin = document.getElementById('input-confirm-pin').value.trim();
+
+      if (!newPin || newPin.length < 3) {
+        showToast('PIN minimal 3 digit angka ya!', '⚠️');
+        return;
+      }
+      if (newPin !== confirmPin) {
+        showToast('Konfirmasi PIN tidak cocok!', '❌');
+        return;
+      }
+
+      localStorage.setItem(STORAGE_KEY_TEACHER_PIN, newPin);
+      closeChangePinModal();
+      showToast('PIN Meja Guru berhasil diganti!', '🎉');
+    }
+
     function switchTab(tab) {
       const studentTab = document.getElementById('view-student');
       const teacherTab = document.getElementById('view-teacher');
       const btnStudent = document.getElementById('tab-btn-student');
       const btnTeacher = document.getElementById('tab-btn-teacher');
+
+      if (tab === 'teacher' && !isTeacherAuthenticated()) {
+        openTeacherLoginModal();
+        return;
+      }
 
       if (tab === 'student') {
         studentTab.classList.remove('hidden');
@@ -763,6 +950,7 @@
         btnStudent.className = 'bouncy-btn flex items-center space-x-1.5 px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-cute font-bold transition-all text-violet-600 hover:text-violet-900';
         renderTeacherDashboard();
       }
+      updateLockBadge();
       lucide.createIcons();
     }
 
@@ -1491,6 +1679,7 @@
 
     window.addEventListener('DOMContentLoaded', () => {
       selectClass(currentClass);
+      updateLockBadge();
       lucide.createIcons();
       syncFromGoogleSheets();
     });
