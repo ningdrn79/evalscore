@@ -1,0 +1,1509 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bintang Presentasi Kelas 5 🌟 | Penilaian Seru Antar Teman</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Fredoka (Cute & Bouncy) & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Canvas Confetti untuk Efek Lucu saat Kirim Nilai -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            fredoka: ['Fredoka', 'cursive', 'sans-serif'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            ceria: {
+              kuning: '#FBBF24',
+              orange: '#F97316',
+              pink: '#EC4899',
+              ungu: '#8B5CF6',
+              biru: '#0EA5E9',
+              hijau: '#10B981',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: linear-gradient(135deg, #FFFBEB 0%, #F0FDF4 50%, #EFF6FF 100%);
+      background-attachment: fixed;
+    }
+    .font-cute {
+      font-family: 'Fredoka', cursive, sans-serif;
+    }
+    .bouncy-btn {
+      transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .bouncy-btn:hover {
+      transform: translateY(-2px) scale(1.02);
+    }
+    .bouncy-btn:active {
+      transform: translateY(1px) scale(0.97);
+    }
+    .cute-card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      border: 3px solid #F1F5F9;
+      box-shadow: 0 10px 25px -5px rgba(148, 163, 184, 0.15), 0 8px 10px -6px rgba(148, 163, 184, 0.1);
+    }
+    .cute-radio:checked + label {
+      border-color: #8B5CF6;
+      background: linear-gradient(135deg, #FAF5FF 0%, #F3E8FF 100%);
+      color: #6B21A8;
+      box-shadow: 0 6px 15px -3px rgba(139, 92, 246, 0.25);
+      transform: translateY(-3px) scale(1.03);
+    }
+    @media print {
+      .no-print { display: none !important; }
+      .print-only { display: block !important; }
+      body { background: white !important; }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col text-slate-800">
+
+  <!-- Header Lucu & Ceria -->
+  <header class="bg-white/90 backdrop-blur-md border-b-2 border-indigo-100 sticky top-0 z-40 no-print shadow-sm">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-18 py-2 flex items-center justify-between">
+      
+      <!-- Logo & Judul -->
+      <div class="flex items-center space-x-3">
+        <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-400 via-orange-400 to-pink-500 flex items-center justify-center text-white shadow-lg shadow-orange-300/50 text-2xl animate-bounce">
+          ⭐
+        </div>
+        <div>
+          <div class="flex items-center space-x-2">
+            <h1 class="text-xl sm:text-2xl font-black font-cute tracking-wide bg-gradient-to-r from-violet-600 via-pink-600 to-amber-500 bg-clip-text text-transparent">
+              Bintang Presentasi
+            </h1>
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-pink-100 text-pink-700 font-cute border border-pink-200">
+              Kelas 5 SD 🚀
+            </span>
+          </div>
+          <p class="text-xs text-slate-400 font-medium hidden sm:block">Penilaian Antar Teman Jadi Seru & Menyenangkan!</p>
+        </div>
+      </div>
+
+      <!-- Navigasi & Status Cloud -->
+      <div class="flex items-center space-x-2 sm:space-x-3">
+        <!-- Status Google Sheets -->
+        <button onclick="openCloudModal()" id="cloud-status-badge" class="hidden sm:flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-bold border-2 transition border-slate-200 bg-slate-50 text-slate-600 hover:border-violet-300 font-cute">
+          <span class="w-2.5 h-2.5 rounded-full bg-slate-400" id="cloud-dot"></span>
+          <span id="cloud-text">Sheets: Offline</span>
+        </button>
+
+        <nav class="flex items-center p-1 bg-violet-100/80 rounded-2xl border border-violet-200">
+          <button id="tab-btn-student" onclick="switchTab('student')" class="bouncy-btn flex items-center space-x-1.5 px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-cute font-bold transition-all bg-white text-violet-700 shadow-sm">
+            <span>✨</span>
+            <span>Ruang Siswa</span>
+          </button>
+          <button id="tab-btn-teacher" onclick="switchTab('teacher')" class="bouncy-btn flex items-center space-x-1.5 px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-cute font-bold transition-all text-violet-600 hover:text-violet-900">
+            <span>👑</span>
+            <span>Meja Guru</span>
+          </button>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- Kontainer Konten Utama -->
+  <main class="max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-8 flex-1 w-full space-y-6">
+    
+    <!-- Toast Pemberitahuan Lucu -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none flex items-center space-x-3 px-5 py-4 rounded-2xl shadow-2xl bg-slate-900 text-white text-sm font-bold border-2 border-amber-400">
+      <span id="toast-emoji" class="text-2xl">🎉</span>
+      <span id="toast-msg" class="font-cute text-base">Pesan notifikasi</span>
+    </div>
+
+    <!-- ==================== VIEW 1: RUANG SISWA ==================== -->
+    <section id="view-student" class="space-y-6">
+      
+      <!-- Banner Sambutan Ceria -->
+      <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-violet-600 via-indigo-600 to-pink-500 p-6 sm:p-8 text-white shadow-xl shadow-indigo-300/40">
+        <!-- Dekorasi Background -->
+        <div class="absolute -right-4 -bottom-4 text-7xl sm:text-8xl opacity-20 pointer-events-none select-none">
+          🎨🎯🚀
+        </div>
+        <div class="relative z-10 max-w-2xl">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-xs font-cute font-bold text-amber-200 mb-3 border border-white/30">
+            <span>🌈</span>
+            <span>Misi Penilaian Presentasi Kelompok</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-black font-cute tracking-wide leading-tight">
+            Ayo Beri Bintang & Semangat untuk Temanmu! 🌟
+          </h2>
+          <p class="mt-2 text-indigo-100 text-xs sm:text-sm leading-relaxed">
+            Daftarkan kelompokmu terlebih dahulu atau berikan penilaian terbaik untuk kelompok teman yang sedang maju di depan kelas.
+          </p>
+        </div>
+      </div>
+
+      <!-- Tombol Pilihan Sub-Menu: Beri Nilai VS Daftar Kelompok -->
+      <div class="flex flex-wrap items-center justify-between gap-3 p-2 bg-white/80 rounded-2xl border-2 border-indigo-100 shadow-sm">
+        <div class="flex items-center space-x-2">
+          <button id="student-subtab-vote" onclick="toggleStudentSubMode('vote')" class="bouncy-btn flex items-center space-x-2 px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-cute font-bold transition bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-md shadow-indigo-300/50">
+            <span>⭐</span>
+            <span>Beri Nilai Kelompok Lain</span>
+          </button>
+          <button id="student-subtab-register" onclick="toggleStudentSubMode('register')" class="bouncy-btn flex items-center space-x-2 px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-cute font-bold transition text-slate-600 hover:text-emerald-700 hover:bg-emerald-50">
+            <span>👥</span>
+            <span>+ Daftarkan Kelompok Baru</span>
+          </button>
+        </div>
+
+        <button onclick="syncFromGoogleSheets()" class="bouncy-btn text-xs font-cute font-bold text-slate-500 hover:text-violet-600 px-3 py-1.5 flex items-center space-x-1.5 transition">
+          <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+          <span>Segarkan Data</span>
+        </button>
+      </div>
+
+      <!-- FORM 1: PENDAFTARAN KELOMPOK OLEH SISWA -->
+      <div id="student-register-group-section" class="hidden cute-card rounded-3xl p-6 sm:p-8 space-y-6 border-2 border-emerald-300 shadow-lg">
+        <div class="flex items-start justify-between border-b-2 border-slate-100 pb-4">
+          <div class="flex items-center space-x-3">
+            <span class="text-3xl">📝</span>
+            <div>
+              <span class="px-2.5 py-0.5 rounded-full text-[11px] font-cute font-bold bg-emerald-100 text-emerald-800 uppercase">
+                Pendaftaran Mandiri Siswa
+              </span>
+              <h3 class="text-xl font-black font-cute text-slate-900 mt-0.5">Daftarkan Kelompokmu di Sini</h3>
+            </div>
+          </div>
+          <button onclick="toggleStudentSubMode('vote')" class="bouncy-btn text-xs font-cute font-bold text-slate-400 hover:text-slate-600 bg-slate-100 px-3 py-1.5 rounded-xl">
+            ✖ Batal
+          </button>
+        </div>
+
+        <form onsubmit="handleStudentRegisterGroup(event)" class="space-y-5">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-extrabold text-slate-700 uppercase font-cute tracking-wide mb-1.5">
+                Nama Kelompok <span class="text-rose-500">*</span>
+              </label>
+              <input type="text" id="reg-group-name" required placeholder="Contoh: Kelompok 1 (atau Tim Garuda)" class="w-full px-4 py-3 rounded-2xl border-2 border-slate-200 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100 text-sm outline-none transition font-medium">
+            </div>
+            <div>
+              <label class="block text-xs font-extrabold text-slate-700 uppercase font-cute tracking-wide mb-1.5">
+                Topik / Judul Presentasi <span class="text-rose-500">*</span>
+              </label>
+              <input type="text" id="reg-group-topic" required placeholder="Contoh: Mengenal Ekosistem Hutan Hujan" class="w-full px-4 py-3 rounded-2xl border-2 border-slate-200 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100 text-sm outline-none transition font-medium">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-extrabold text-slate-700 uppercase font-cute tracking-wide mb-1.5">
+              Daftar Nama Anggota Kelompok <span class="text-rose-500">*</span>
+            </label>
+            <input type="text" id="reg-group-members" required placeholder="Contoh: Andi, Bella, Citra, Doni (pisahkan dengan koma)" class="w-full px-4 py-3 rounded-2xl border-2 border-slate-200 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100 text-sm outline-none transition font-medium">
+            <p class="text-[11px] text-slate-400 mt-1.5">Tulis nama teman-teman sekelompokmu agar guru dan teman lain tahu siapa saja anggotanya.</p>
+          </div>
+
+          <div class="pt-3 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <span class="text-xs text-slate-400 font-cute italic">✨ Otomatis muncul di pilihan seluruh kelas & Google Sheets guru!</span>
+            <button type="submit" id="btn-reg-group-submit" class="bouncy-btn w-full sm:w-auto px-7 py-3 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-cute font-bold text-sm rounded-2xl shadow-lg shadow-emerald-200 flex items-center justify-center space-x-2">
+              <span>🚀</span>
+              <span id="btn-reg-text">Daftarkan Kelompok Saya</span>
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- FORM 2: FORM PENILAIAN PRESENTASI OLEH TEMAN -->
+      <form id="peer-form" onsubmit="handlePeerSubmit(event)" class="cute-card rounded-3xl p-6 sm:p-8 space-y-8">
+        
+        <!-- Pilihan Penilai & Target -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5 pb-6 border-b-2 border-slate-100">
+          <div>
+            <label class="block text-xs font-extrabold text-slate-700 uppercase font-cute tracking-wide mb-1.5">
+              Nama Kamu (Penilai) <span class="text-rose-500">*</span>
+            </label>
+            <input type="text" id="reviewer-name" required placeholder="Tulis namamu di sini..." class="w-full px-4 py-3 rounded-2xl border-2 border-slate-200 focus:border-violet-500 focus:ring-4 focus:ring-violet-100 text-sm outline-none transition font-medium">
+          </div>
+
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <label class="block text-xs font-extrabold text-slate-700 uppercase font-cute tracking-wide">
+                Kelompok Asalmu <span class="text-rose-500">*</span>
+              </label>
+              <button type="button" onclick="toggleStudentSubMode('register')" class="text-[11px] font-cute font-bold text-emerald-600 hover:underline">
+                + Daftar Baru
+              </button>
+            </div>
+            <select id="reviewer-group" required onchange="filterTargetGroups()" class="w-full px-4 py-3 rounded-2xl border-2 border-slate-200 focus:border-violet-500 focus:ring-4 focus:ring-violet-100 text-sm outline-none transition font-medium bg-white">
+              <option value="">-- Pilih Kelompok Asalmu --</option>
+            </select>
+            <p class="text-[11px] text-slate-400 mt-1">Kamu tidak bisa menilai kelompokmu sendiri ya!</p>
+          </div>
+
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <label class="block text-xs font-extrabold text-slate-700 uppercase font-cute tracking-wide">
+                Kelompok yang Sedang Maju <span class="text-rose-500">*</span>
+              </label>
+              <button type="button" onclick="syncFromGoogleSheets()" class="text-[11px] font-cute font-bold text-blue-600 hover:underline flex items-center space-x-1">
+                <i data-lucide="refresh-cw" class="w-3 h-3"></i>
+                <span>Cek Baru</span>
+              </button>
+            </div>
+            <select id="target-group" required onchange="updateTargetGroupInfo()" class="w-full px-4 py-3 rounded-2xl border-2 border-slate-200 focus:border-violet-500 focus:ring-4 focus:ring-violet-100 text-sm outline-none transition font-medium bg-white">
+              <option value="">-- Pilih Kelompok yang Dinilai --</option>
+            </select>
+            <div id="target-group-meta" class="text-xs text-violet-700 font-cute font-semibold mt-1.5"></div>
+          </div>
+        </div>
+
+        <!-- 2 Kriteria Penilaian Super Lucu & Jelas -->
+        <div class="space-y-6">
+          <div class="flex items-center justify-between border-b-2 border-slate-100 pb-3">
+            <div class="flex items-center space-x-2">
+              <span class="text-2xl">🏆</span>
+              <div>
+                <h3 class="text-lg font-black font-cute text-slate-900">2 Kriteria Penilaian Presentasi</h3>
+                <p class="text-xs text-slate-500">Pilih bintang yang paling pantas untuk kelompok yang maju!</p>
+              </div>
+            </div>
+            <div class="px-3 py-1 bg-gradient-to-r from-amber-100 to-orange-100 text-amber-800 rounded-full font-cute font-bold text-xs border border-amber-200">
+              Maksimal 8 Bintang ⭐
+            </div>
+          </div>
+
+          <!-- Kriteria 1: Kekompakan & Pembagian Peran -->
+          <div class="p-5 rounded-3xl bg-amber-50/70 border-2 border-amber-200/80 space-y-3">
+            <div class="flex items-start justify-between">
+              <div>
+                <span class="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-cute font-bold bg-amber-200 text-amber-900 mb-1">
+                  Kriteria 1 🤝
+                </span>
+                <h4 class="text-base font-black font-cute text-slate-900">Kekompakan & Pembagian Peran Anggota</h4>
+                <p class="text-xs text-slate-600 mt-0.5">Semua anggota kelompok aktif berbicara, saling mendukung, dan tidak ada yang diam saja.</p>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-1">
+              <div>
+                <input type="radio" id="c1_1" name="crit_1" value="1" required class="hidden cute-radio" onchange="calculateLiveStudentScore()">
+                <label for="c1_1" class="bouncy-btn flex flex-col items-center justify-center p-3 rounded-2xl border-2 border-slate-200 bg-white cursor-pointer transition text-center">
+                  <span class="text-xl">😴</span>
+                  <span class="font-cute font-bold text-sm text-slate-800 mt-1">1 Bintang</span>
+                  <span class="text-slate-400 text-[11px]">Kurang Kompak</span>
+                </label>
+              </div>
+              <div>
+                <input type="radio" id="c1_2" name="crit_1" value="2" class="hidden cute-radio" onchange="calculateLiveStudentScore()">
+                <label for="c1_2" class="bouncy-btn flex flex-col items-center justify-center p-3 rounded-2xl border-2 border-slate-200 bg-white cursor-pointer transition text-center">
+                  <span class="text-xl">🙂</span>
+                  <span class="font-cute font-bold text-sm text-slate-800 mt-1">2 Bintang</span>
+                  <span class="text-slate-400 text-[11px]">Cukup Kompak</span>
+                </label>
+              </div>
+              <div>
+                <input type="radio" id="c1_3" name="crit_1" value="3" class="hidden cute-radio" onchange="calculateLiveStudentScore()">
+                <label for="c1_3" class="bouncy-btn flex flex-col items-center justify-center p-3 rounded-2xl border-2 border-slate-200 bg-white cursor-pointer transition text-center">
+                  <span class="text-xl">🌟</span>
+                  <span class="font-cute font-bold text-sm text-slate-800 mt-1">3 Bintang</span>
+                  <span class="text-slate-400 text-[11px]">Kompak & Rapi</span>
+                </label>
+              </div>
+              <div>
+                <input type="radio" id="c1_4" name="crit_1" value="4" class="hidden cute-radio" onchange="calculateLiveStudentScore()">
+                <label for="c1_4" class="bouncy-btn flex flex-col items-center justify-center p-3 rounded-2xl border-2 border-slate-200 bg-white cursor-pointer transition text-center">
+                  <span class="text-xl">🚀</span>
+                  <span class="font-cute font-bold text-sm text-slate-800 mt-1">4 Bintang</span>
+                  <span class="text-slate-400 text-[11px]">Sangat Kompak!</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Kriteria 2: Penguasaan Materi & Kejelasan -->
+          <div class="p-5 rounded-3xl bg-blue-50/70 border-2 border-blue-200/80 space-y-3">
+            <div class="flex items-start justify-between">
+              <div>
+                <span class="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-cute font-bold bg-blue-200 text-blue-900 mb-1">
+                  Kriteria 2 🎤
+                </span>
+                <h4 class="text-base font-black font-cute text-slate-900">Penguasaan Materi & Kejelasan Penyampaian</h4>
+                <p class="text-xs text-slate-600 mt-0.5">Penjelasan runtut, suara lantang, percaya diri, dan mudah dipahami teman sekelas.</p>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-1">
+              <div>
+                <input type="radio" id="c2_1" name="crit_2" value="1" required class="hidden cute-radio" onchange="calculateLiveStudentScore()">
+                <label for="c2_1" class="bouncy-btn flex flex-col items-center justify-center p-3 rounded-2xl border-2 border-slate-200 bg-white cursor-pointer transition text-center">
+                  <span class="text-xl">📖</span>
+                  <span class="font-cute font-bold text-sm text-slate-800 mt-1">1 Bintang</span>
+                  <span class="text-slate-400 text-[11px]">Banyak Baca Slide</span>
+                </label>
+              </div>
+              <div>
+                <input type="radio" id="c2_2" name="crit_2" value="2" class="hidden cute-radio" onchange="calculateLiveStudentScore()">
+                <label for="c2_2" class="bouncy-btn flex flex-col items-center justify-center p-3 rounded-2xl border-2 border-slate-200 bg-white cursor-pointer transition text-center">
+                  <span class="text-xl">👍</span>
+                  <span class="font-cute font-bold text-sm text-slate-800 mt-1">2 Bintang</span>
+                  <span class="text-slate-400 text-[11px]">Cukup Jelas</span>
+                </label>
+              </div>
+              <div>
+                <input type="radio" id="c2_3" name="crit_2" value="3" class="hidden cute-radio" onchange="calculateLiveStudentScore()">
+                <label for="c2_3" class="bouncy-btn flex flex-col items-center justify-center p-3 rounded-2xl border-2 border-slate-200 bg-white cursor-pointer transition text-center">
+                  <span class="text-xl">💡</span>
+                  <span class="font-cute font-bold text-sm text-slate-800 mt-1">3 Bintang</span>
+                  <span class="text-slate-400 text-[11px]">Jelas & Seru</span>
+                </label>
+              </div>
+              <div>
+                <input type="radio" id="c2_4" name="crit_2" value="4" class="hidden cute-radio" onchange="calculateLiveStudentScore()">
+                <label for="c2_4" class="bouncy-btn flex flex-col items-center justify-center p-3 rounded-2xl border-2 border-slate-200 bg-white cursor-pointer transition text-center">
+                  <span class="text-xl">👑</span>
+                  <span class="font-cute font-bold text-sm text-slate-800 mt-1">4 Bintang</span>
+                  <span class="text-slate-400 text-[11px]">Sangat Menguasai!</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Kolom Masukan / Feedback Kasih Semangat -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 border-t-2 border-slate-100">
+          <div>
+            <label class="block text-xs font-extrabold text-slate-700 uppercase font-cute tracking-wide mb-1.5 flex items-center space-x-1.5">
+              <span>💖</span>
+              <span>Hal yang Paling Keren / Kamu Sukai</span>
+            </label>
+            <textarea id="feedback-pro" rows="2" placeholder="Contoh: Slidenya bagus sekali dan suaranya terdengar jelas sampai belakang..." class="w-full px-4 py-3 rounded-2xl border-2 border-slate-200 focus:border-pink-500 focus:ring-4 focus:ring-pink-100 text-sm outline-none transition font-medium resize-none"></textarea>
+          </div>
+          <div>
+            <label class="block text-xs font-extrabold text-slate-700 uppercase font-cute tracking-wide mb-1.5 flex items-center space-x-1.5">
+              <span>💡</span>
+              <span>Saran Sahabat untuk Kelompok Ini</span>
+            </label>
+            <textarea id="feedback-con" rows="2" placeholder="Contoh: Ke depannya jangan terlalu cepat ya bicaranya..." class="w-full px-4 py-3 rounded-2xl border-2 border-slate-200 focus:border-amber-500 focus:ring-4 focus:ring-amber-100 text-sm outline-none transition font-medium resize-none"></textarea>
+          </div>
+        </div>
+
+        <!-- Bar Kirim Nilai dengan Live Counter -->
+        <div class="bg-gradient-to-r from-violet-100 via-pink-100 to-amber-100 border-2 border-violet-200 rounded-3xl p-5 sm:p-6 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm">
+          <div class="flex items-center space-x-4">
+            <div class="w-12 h-12 rounded-2xl bg-white flex items-center justify-center text-2xl shadow-sm border border-violet-200">
+              ⭐
+            </div>
+            <div class="text-left">
+              <span class="text-xs font-extrabold text-violet-800 uppercase font-cute tracking-wider">Total Bintangmu</span>
+              <div class="flex items-baseline space-x-2">
+                <span id="live-total-score" class="text-3xl font-black font-cute text-violet-900">0</span>
+                <span class="text-xs text-slate-500 font-cute">/ 8</span>
+                <span class="text-xs text-slate-400">|</span>
+                <span class="text-xs text-slate-600 font-cute">Nilai Skala 100:</span>
+                <span id="live-scale-score" class="text-2xl font-black font-cute text-pink-600">0.0</span>
+              </div>
+            </div>
+          </div>
+          
+          <button type="submit" id="btn-submit-vote" class="bouncy-btn w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-violet-600 via-indigo-600 to-pink-600 hover:from-violet-700 hover:to-pink-700 text-white font-cute font-bold text-base rounded-2xl shadow-lg shadow-indigo-300/50 flex items-center justify-center space-x-2">
+            <span>🎉</span>
+            <span id="btn-submit-text">Kirim Penilaian</span>
+          </button>
+        </div>
+      </form>
+
+      <!-- Riwayat Suara Siswa -->
+      <div class="cute-card rounded-3xl p-6">
+        <h3 class="text-sm font-black font-cute text-slate-800 mb-3 flex items-center space-x-2">
+          <span>📜</span>
+          <span>Suara Penilaian yang Sudah Kamu Kirim</span>
+        </h3>
+        <div id="student-submitted-list" class="divide-y divide-slate-100 text-sm">
+          <p class="text-xs text-slate-400 py-3 text-center font-cute">Belum ada penilaian yang dikirim dari perangkat ini.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== VIEW 2: MEJA GURU (DASHBOARD) ==================== -->
+    <section id="view-teacher" class="hidden space-y-6">
+      
+      <!-- Top Control Bar Guru -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-5 no-print">
+        
+        <!-- Slider Bobot 60% : 40% -->
+        <div class="cute-card rounded-3xl p-6 flex flex-col justify-between border-2 border-indigo-100">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <h3 class="text-sm font-black font-cute text-slate-900 flex items-center space-x-1.5">
+                <span>⚖️</span>
+                <span>Bobot Nilai Akhir</span>
+              </h3>
+              <span class="text-[11px] font-cute font-bold bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full">
+                Otomatis
+              </span>
+            </div>
+            <p class="text-xs text-slate-500 mb-4">Pembagian porsi nilai Guru vs Nilai Teman:</p>
+            
+            <div class="space-y-3">
+              <div class="flex items-center justify-between text-xs font-cute font-bold">
+                <span class="text-indigo-700">👑 Guru: <span id="weight-teacher-val" class="text-base font-black">60</span>%</span>
+                <span class="text-pink-600">🌟 Siswa: <span id="weight-peer-val" class="text-base font-black">40</span>%</span>
+              </div>
+              <input type="range" id="weight-slider" min="10" max="90" step="5" value="60" oninput="updateWeights(this.value)" class="w-full accent-indigo-600 cursor-pointer">
+              <p class="text-[11px] text-slate-400 italic">Rumus: NA = (60% × Nilai Guru) + (40% × Rata-rata Teman)</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ringkasan Statistik Kelas -->
+        <div class="cute-card rounded-3xl p-6 flex flex-col justify-between border-2 border-amber-100">
+          <div class="grid grid-cols-2 gap-3">
+            <div class="p-3.5 rounded-2xl bg-amber-50 border border-amber-200">
+              <span class="text-xs text-amber-800 font-cute font-bold">Total Kelompok</span>
+              <h4 id="stat-total-groups" class="text-2xl font-black font-cute text-amber-900 mt-1">0</h4>
+            </div>
+            <div class="p-3.5 rounded-2xl bg-violet-50 border border-violet-200">
+              <span class="text-xs text-violet-800 font-cute font-bold">Suara Masuk</span>
+              <h4 id="stat-total-votes" class="text-2xl font-black font-cute text-violet-900 mt-1">0</h4>
+            </div>
+          </div>
+          
+          <div class="mt-4 pt-3 border-t border-slate-100">
+            <button onclick="syncFromGoogleSheets()" id="btn-sync-now" class="bouncy-btn w-full py-2.5 px-3 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-cute font-bold text-xs flex items-center justify-center space-x-2 shadow-sm">
+              <i data-lucide="refresh-cw" id="sync-icon" class="w-3.5 h-3.5"></i>
+              <span>Tarik Data Terbaru dari Google Sheets</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Tombol Aksi Guru -->
+        <div class="cute-card rounded-3xl p-6 flex flex-col justify-between space-y-3 border-2 border-pink-100">
+          <div class="flex items-center justify-between">
+            <h3 class="text-sm font-black font-cute text-slate-900 flex items-center space-x-1.5">
+              <span>⚡</span>
+              <span>Aksi & Integrasi</span>
+            </h3>
+            <button onclick="openCloudModal()" class="text-xs text-indigo-600 font-cute font-bold hover:underline flex items-center space-x-1">
+              <i data-lucide="sheet" class="w-3.5 h-3.5"></i>
+              <span>Google Sheets</span>
+            </button>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2">
+            <button onclick="exportToCSV()" class="bouncy-btn px-3 py-2.5 rounded-2xl border-2 border-slate-200 hover:bg-slate-50 text-slate-700 font-cute font-bold text-xs flex items-center justify-center space-x-1.5">
+              <span>📊</span>
+              <span>Unduh Excel</span>
+            </button>
+            <button onclick="window.print()" class="bouncy-btn px-3 py-2.5 rounded-2xl border-2 border-slate-200 hover:bg-slate-50 text-slate-700 font-cute font-bold text-xs flex items-center justify-center space-x-1.5">
+              <span>🖨️</span>
+              <span>Cetak PDF</span>
+            </button>
+            <button onclick="openManageGroupsModal()" class="bouncy-btn px-3 py-2.5 rounded-2xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-cute font-bold text-xs flex items-center justify-center space-x-1.5 col-span-2 border border-indigo-200">
+              <span>⚙️</span>
+              <span>Kelola Daftar Kelompok</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- GRAFIK KOMPARASI -->
+      <div class="cute-card rounded-3xl p-6 no-print">
+        <h3 class="text-base font-black font-cute text-slate-900 mb-4 flex items-center space-x-2">
+          <span>📈</span>
+          <span>Grafik Perbandingan Nilai Kelompok</span>
+        </h3>
+        <div class="h-64 sm:h-72 w-full">
+          <canvas id="scoreComparisonChart"></canvas>
+        </div>
+      </div>
+
+      <!-- TABEL REKAPITULASI NILAI GABUNGAN -->
+      <div class="cute-card rounded-3xl overflow-hidden">
+        <div class="p-6 border-b-2 border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-gradient-to-r from-violet-50/50 to-pink-50/50">
+          <div>
+            <h3 class="text-lg font-black font-cute text-slate-900 flex items-center space-x-2">
+              <span>🏅</span>
+              <span>Rekapitulasi Nilai Akhir Presentasi</span>
+            </h3>
+            <p class="text-xs text-slate-500 font-medium">Nilai Akhir = 60% Nilai Guru + 40% Rata-rata Nilai Teman</p>
+          </div>
+          <span class="text-xs font-cute font-semibold text-slate-400 no-print">
+            💡 Masukkan Nilai Guru (1–100) langsung di tabel:
+          </span>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse text-sm">
+            <thead>
+              <tr class="bg-slate-50 text-slate-600 text-xs font-cute font-extrabold uppercase tracking-wider border-b-2 border-slate-200">
+                <th class="py-3.5 px-4">Kelompok & Materi</th>
+                <th class="py-3.5 px-4 text-center">Penilai</th>
+                <th class="py-3.5 px-4 text-center">Nilai Teman (40%)</th>
+                <th class="py-3.5 px-4 text-center">Nilai Guru (60%)</th>
+                <th class="py-3.5 px-4 text-center">Nilai Akhir</th>
+                <th class="py-3.5 px-4 text-center">Predikat</th>
+                <th class="py-3.5 px-4 text-center no-print">Catatan</th>
+              </tr>
+            </thead>
+            <tbody id="recap-table-body" class="divide-y divide-slate-100">
+              <!-- Render otomatis via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Feedback Kualitatif Siswa -->
+      <div class="cute-card rounded-3xl p-6">
+        <h3 class="text-base font-black font-cute text-slate-900 mb-4 flex items-center space-x-2">
+          <span>💬</span>
+          <span>Semua Komentar & Pujian dari Siswa</span>
+        </h3>
+        <div id="all-feedbacks-container" class="space-y-3 max-h-96 overflow-y-auto pr-2">
+          <!-- Render via JS -->
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- MODAL: KONEKSI GOOGLE SHEETS -->
+  <div id="modal-cloud-setup" class="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+    <div class="cute-card rounded-3xl w-full max-w-lg p-6 space-y-5 animate-in fade-in zoom-in duration-150">
+      <div class="flex items-center justify-between pb-3 border-b-2 border-slate-100">
+        <div class="flex items-center space-x-2">
+          <span class="text-2xl">📊</span>
+          <h3 class="text-lg font-black font-cute text-slate-900">Koneksi Google Sheets Terpusat</h3>
+        </div>
+        <button onclick="closeCloudModal()" class="bouncy-btn text-slate-400 hover:text-slate-600 p-1">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="text-xs text-slate-600 space-y-2 bg-emerald-50 border-2 border-emerald-200 p-4 rounded-2xl">
+        <p class="font-cute font-bold text-emerald-900 text-sm">Kenapa menghubungkan Google Sheets?</p>
+        <p>Agar seluruh siswa yang membuka web lewat HP masing-masing suaranya otomatis masuk ke 1 spreadsheet milik Anda secara terpusat!</p>
+      </div>
+
+      <div class="space-y-3">
+        <label class="block text-xs font-cute font-bold text-slate-700 uppercase">URL Web App Google Apps Script</label>
+        <input type="url" id="sheets-web-app-url" oninput="handleUrlInput(this.value)" placeholder="Tempel URL berakhiran /exec di sini..." class="w-full px-4 py-3 text-xs rounded-2xl border-2 border-slate-200 outline-none focus:border-emerald-500 font-mono">
+        <div id="url-validation-warning" class="hidden text-xs text-rose-600 bg-rose-50 p-3 rounded-xl border border-rose-200 font-medium font-cute"></div>
+        <p class="text-[11px] text-slate-400">Pastikan URL yang ditempel berakhiran <span class="font-bold text-emerald-700">/exec</span>.</p>
+      </div>
+
+      <div class="flex items-center justify-between pt-3 border-t-2 border-slate-100">
+        <button onclick="saveGoogleSheetsUrl(true)" id="btn-save-cloud" class="bouncy-btn px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl text-xs font-cute font-bold shadow-md shadow-emerald-200 flex items-center space-x-2">
+          <span>💾</span>
+          <span>Simpan & Hubungkan</span>
+        </button>
+        <button onclick="disconnectGoogleSheets()" class="bouncy-btn text-xs text-rose-500 hover:text-rose-700 font-cute font-bold">
+          Putuskan Hubungan
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: KELOLA KELOMPOK -->
+  <div id="modal-manage-groups" class="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+    <div class="cute-card rounded-3xl w-full max-w-lg p-6 space-y-5 animate-in fade-in zoom-in duration-150">
+      <div class="flex items-center justify-between pb-3 border-b-2 border-slate-100">
+        <h3 class="text-lg font-black font-cute text-slate-900 flex items-center space-x-2">
+          <span>👥</span>
+          <span>Kelola Daftar Kelompok</span>
+        </h3>
+        <button onclick="closeManageGroupsModal()" class="bouncy-btn text-slate-400 hover:text-slate-600 p-1">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Form Tambah Kelompok oleh Guru -->
+      <form onsubmit="handleAddNewGroup(event)" class="space-y-3 p-4 bg-violet-50/70 rounded-2xl border-2 border-violet-100">
+        <h4 class="text-xs font-cute font-bold text-violet-900 uppercase">Tambah Kelompok dari Meja Guru</h4>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+          <input type="text" id="new-group-name" required placeholder="Nama Kelompok" class="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 outline-none focus:border-violet-500 font-medium">
+          <input type="text" id="new-group-topic" placeholder="Judul Materi" class="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 outline-none focus:border-violet-500 font-medium">
+        </div>
+        <input type="text" id="new-group-members" placeholder="Nama Anggota (pisahkan dengan koma)" class="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 outline-none focus:border-violet-500 font-medium">
+        <button type="submit" class="bouncy-btn w-full py-2.5 bg-violet-600 hover:bg-violet-700 text-white rounded-xl text-xs font-cute font-bold transition">
+          + Tambahkan Kelompok
+        </button>
+      </form>
+
+      <!-- Daftar Kelompok Saat Ini -->
+      <div class="space-y-2">
+        <h4 class="text-xs font-cute font-bold text-slate-700 uppercase">Kelompok yang Sedang Terdaftar</h4>
+        <div id="modal-groups-list" class="max-h-56 overflow-y-auto space-y-2 pr-1">
+          <!-- Render via JS -->
+        </div>
+      </div>
+
+      <div class="pt-3 border-t-2 border-slate-100 flex justify-between items-center">
+        <button onclick="resetAllDataConfirm()" class="bouncy-btn text-xs text-rose-600 hover:text-rose-800 font-cute font-bold">
+          🗑️ Bersihkan Semua Data
+        </button>
+        <button onclick="closeManageGroupsModal()" class="bouncy-btn px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-cute font-bold rounded-xl">
+          Tutup
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer Ceria -->
+  <footer class="bg-white/80 border-t-2 border-indigo-100 py-4 mt-auto no-print text-center">
+    <div class="max-w-6xl mx-auto px-4 text-xs font-cute font-semibold text-slate-400">
+      Bintang Presentasi Kelas 5 &copy; 2026. Belajar Kolaborasi & Menghargai Teman! 💖
+    </div>
+  </footer>
+
+  <!-- SCRIPT LOGIKA APLIKASI -->
+  <script>
+    const STORAGE_KEY_GROUPS = 'eval_groups_data';
+    const STORAGE_KEY_VOTES = 'eval_votes_data';
+    const STORAGE_KEY_CONFIG = 'eval_config_data';
+    const STORAGE_KEY_SHEETS_URL = 'eval_sheets_url';
+
+    // Awal mula kosong dan bersih
+    const DEFAULT_GROUPS = [];
+
+    let groups = JSON.parse(localStorage.getItem(STORAGE_KEY_GROUPS)) || DEFAULT_GROUPS;
+    let votes = JSON.parse(localStorage.getItem(STORAGE_KEY_VOTES)) || [];
+    let config = JSON.parse(localStorage.getItem(STORAGE_KEY_CONFIG)) || { teacherWeight: 60, peerWeight: 40 };
+    if (config.teacherWeight === 70 && config.peerWeight === 30) {
+      config = { teacherWeight: 60, peerWeight: 40 };
+      localStorage.setItem(STORAGE_KEY_CONFIG, JSON.stringify(config));
+    }
+    let sheetsUrl = localStorage.getItem(STORAGE_KEY_SHEETS_URL) || '';
+
+    let chartInstance = null;
+
+    function saveData() {
+      localStorage.setItem(STORAGE_KEY_GROUPS, JSON.stringify(groups));
+      localStorage.setItem(STORAGE_KEY_VOTES, JSON.stringify(votes));
+      localStorage.setItem(STORAGE_KEY_CONFIG, JSON.stringify(config));
+    }
+
+    function switchTab(tab) {
+      const studentTab = document.getElementById('view-student');
+      const teacherTab = document.getElementById('view-teacher');
+      const btnStudent = document.getElementById('tab-btn-student');
+      const btnTeacher = document.getElementById('tab-btn-teacher');
+
+      if (tab === 'student') {
+        studentTab.classList.remove('hidden');
+        teacherTab.classList.add('hidden');
+        btnStudent.className = 'bouncy-btn flex items-center space-x-1.5 px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-cute font-bold transition-all bg-white text-violet-700 shadow-sm';
+        btnTeacher.className = 'bouncy-btn flex items-center space-x-1.5 px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-cute font-bold transition-all text-violet-600 hover:text-violet-900';
+      } else {
+        studentTab.classList.add('hidden');
+        teacherTab.classList.remove('hidden');
+        btnTeacher.className = 'bouncy-btn flex items-center space-x-1.5 px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-cute font-bold transition-all bg-white text-violet-700 shadow-sm';
+        btnStudent.className = 'bouncy-btn flex items-center space-x-1.5 px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-cute font-bold transition-all text-violet-600 hover:text-violet-900';
+        renderTeacherDashboard();
+      }
+      lucide.createIcons();
+    }
+
+    function toggleStudentSubMode(mode) {
+      const regSection = document.getElementById('student-register-group-section');
+      const peerForm = document.getElementById('peer-form');
+      const btnVote = document.getElementById('student-subtab-vote');
+      const btnRegister = document.getElementById('student-subtab-register');
+
+      if (mode === 'register') {
+        regSection.classList.remove('hidden');
+        peerForm.classList.add('hidden');
+        btnRegister.className = 'bouncy-btn flex items-center space-x-2 px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-cute font-bold transition bg-gradient-to-r from-emerald-500 to-teal-600 text-white shadow-md shadow-emerald-200';
+        btnVote.className = 'bouncy-btn flex items-center space-x-2 px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-cute font-bold transition text-slate-600 hover:text-slate-900 hover:bg-slate-100';
+      } else {
+        regSection.classList.add('hidden');
+        peerForm.classList.remove('hidden');
+        btnVote.className = 'bouncy-btn flex items-center space-x-2 px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-cute font-bold transition bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-md shadow-indigo-300/50';
+        btnRegister.className = 'bouncy-btn flex items-center space-x-2 px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-cute font-bold transition text-slate-600 hover:text-emerald-700 hover:bg-emerald-50';
+      }
+      lucide.createIcons();
+    }
+
+    async function handleStudentRegisterGroup(e) {
+      e.preventDefault();
+      const name = document.getElementById('reg-group-name').value.trim();
+      const topic = document.getElementById('reg-group-topic').value.trim();
+      const members = document.getElementById('reg-group-members').value.trim();
+
+      if (!name) {
+        showToast('Tulis nama kelompokmu ya!', '⚠️');
+        return;
+      }
+
+      const newGroup = {
+        id: 'g_' + Date.now(),
+        name,
+        topic,
+        members,
+        teacherScore: 0
+      };
+
+      groups.push(newGroup);
+      saveData();
+
+      const btnText = document.getElementById('btn-reg-text');
+      if (sheetsUrl) {
+        btnText.innerText = 'Menyimpan...';
+        try {
+          await fetch(sheetsUrl, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify({ action: 'registerGroup', group: newGroup })
+          });
+        } catch (err) {
+          console.warn('Sync pendaftaran offline:', err);
+        } finally {
+          btnText.innerText = 'Daftarkan Kelompok Saya';
+        }
+      }
+
+      document.getElementById('reg-group-name').value = '';
+      document.getElementById('reg-group-topic').value = '';
+      document.getElementById('reg-group-members').value = '';
+
+      populateDropdowns();
+      const reviewerSelect = document.getElementById('reviewer-group');
+      if (reviewerSelect) {
+        reviewerSelect.value = newGroup.id;
+        filterTargetGroups();
+      }
+
+      // Ledakan Confetti Lucu!
+      triggerConfetti();
+
+      showToast(`Hore! ${name} berhasil didaftarkan!`, '🎉');
+      toggleStudentSubMode('vote');
+    }
+
+    function showToast(message, emoji = '🎉') {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toast-msg');
+      const toastEmoji = document.getElementById('toast-emoji');
+
+      toastMsg.innerText = message;
+      toastEmoji.innerText = emoji;
+
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      setTimeout(() => {
+        toast.classList.add('translate-y-20', 'opacity-0');
+      }, 3500);
+    }
+
+    function triggerConfetti() {
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 80,
+          spread: 70,
+          origin: { y: 0.6 }
+        });
+      }
+    }
+
+    function updateCloudStatusUI() {
+      const dot = document.getElementById('cloud-dot');
+      const text = document.getElementById('cloud-text');
+      if (sheetsUrl && sheetsUrl.trim() !== '') {
+        dot.className = 'w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse';
+        text.innerText = 'Sheets: Terhubung';
+      } else {
+        dot.className = 'w-2.5 h-2.5 rounded-full bg-slate-400';
+        text.innerText = 'Sheets: Offline';
+      }
+    }
+
+    function openCloudModal() {
+      const savedUrl = sheetsUrl || localStorage.getItem(STORAGE_KEY_SHEETS_URL) || '';
+      const inputEl = document.getElementById('sheets-web-app-url');
+      if (inputEl) {
+        inputEl.value = savedUrl;
+        handleUrlInput(savedUrl);
+      }
+      document.getElementById('modal-cloud-setup').classList.remove('hidden');
+    }
+
+    function closeCloudModal() {
+      document.getElementById('modal-cloud-setup').classList.add('hidden');
+    }
+
+    function handleUrlInput(val) {
+      const warnBox = document.getElementById('url-validation-warning');
+      const cleanVal = (val || '').trim();
+      if (cleanVal) {
+        localStorage.setItem(STORAGE_KEY_SHEETS_URL, cleanVal);
+        sheetsUrl = cleanVal;
+      }
+      if (cleanVal.includes('docs.google.com/spreadsheets')) {
+        warnBox.innerHTML = '⚠️ <b>Perhatian:</b> Ini link dokumen biasa. Gunakan <b>URL Web App</b> berakhiran <b>/exec</b>.';
+        warnBox.classList.remove('hidden');
+      } else {
+        warnBox.classList.add('hidden');
+      }
+    }
+
+    function disconnectGoogleSheets() {
+      sheetsUrl = '';
+      localStorage.removeItem(STORAGE_KEY_SHEETS_URL);
+      const inputEl = document.getElementById('sheets-web-app-url');
+      if (inputEl) inputEl.value = '';
+      document.getElementById('url-validation-warning').classList.add('hidden');
+      updateCloudStatusUI();
+      closeCloudModal();
+      showToast('Koneksi Google Sheets diputuskan.', '🔌');
+    }
+
+    function requestGoogleSheets(url) {
+      return new Promise((resolve, reject) => {
+        const cbName = 'gscript_cb_' + Math.floor(Math.random() * 1000000);
+        let finished = false;
+        const timeout = setTimeout(() => {
+          if (!finished) {
+            finished = true;
+            cleanUp();
+            fetch(url + (url.includes('?') ? '&' : '?') + 'action=getData')
+              .then(res => res.json())
+              .then(resolve)
+              .catch(reject);
+          }
+        }, 5000);
+
+        function cleanUp() {
+          clearTimeout(timeout);
+          if (script.parentNode) script.parentNode.removeChild(script);
+          delete window[cbName];
+        }
+
+        window[cbName] = function(data) {
+          if (!finished) {
+            finished = true;
+            cleanUp();
+            resolve(data);
+          }
+        };
+
+        const script = document.createElement('script');
+        script.src = url + (url.includes('?') ? '&' : '?') + 'action=getData&callback=' + cbName;
+        script.onerror = function() {
+          if (!finished) {
+            finished = true;
+            cleanUp();
+            fetch(url + (url.includes('?') ? '&' : '?') + 'action=getData')
+              .then(res => res.json())
+              .then(resolve)
+              .catch(reject);
+          }
+        };
+        document.body.appendChild(script);
+      });
+    }
+
+    async function saveGoogleSheetsUrl() {
+      const inputUrl = document.getElementById('sheets-web-app-url').value.trim();
+      if (!inputUrl) {
+        showToast('Tempelkan URL Web App Google Apps Script.', '⚠️');
+        return;
+      }
+      sheetsUrl = inputUrl;
+      localStorage.setItem(STORAGE_KEY_SHEETS_URL, sheetsUrl);
+      updateCloudStatusUI();
+
+      showToast('Menyambungkan ke Google Sheets...', '⏳');
+      try {
+        const data = await requestGoogleSheets(inputUrl);
+        if (data && data.status === 'success') {
+          if (data.groups && data.groups.length > 0) {
+            groups = data.groups;
+            populateDropdowns();
+          }
+          if (data.votes) {
+            votes = data.votes.map((v, i) => ({
+              id: 'sv_' + i,
+              reviewerName: v.reviewerName,
+              reviewerGroupName: v.reviewerGroup,
+              reviewerGroupId: getGroupIdByName(v.reviewerGroup),
+              targetGroupName: v.targetGroup,
+              targetGroupId: getGroupIdByName(v.targetGroup),
+              scores: v.scores,
+              totalScore: v.totalScore,
+              score100: v.score100,
+              proFeedback: v.proFeedback,
+              conFeedback: v.conFeedback,
+              timestamp: v.timestamp ? new Date(v.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : '-'
+            }));
+          }
+          saveData();
+          renderTeacherDashboard();
+          showToast('Tersambung ke Google Sheets!', '🎉');
+        } else {
+          showToast('URL tersimpan!', '✅');
+        }
+      } catch (err) {
+        showToast('URL tersimpan! Siap digunakan.', '✅');
+      }
+      closeCloudModal();
+    }
+
+    async function syncFromGoogleSheets() {
+      if (!sheetsUrl) {
+        openCloudModal();
+        return;
+      }
+      const syncIcon = document.getElementById('sync-icon');
+      if (syncIcon) syncIcon.classList.add('animate-spin');
+
+      try {
+        const data = await requestGoogleSheets(sheetsUrl);
+        if (data && data.status === 'success') {
+          if (data.groups && data.groups.length > 0) {
+            groups = data.groups;
+            populateDropdowns();
+          }
+          if (data.votes) {
+            votes = data.votes.map((v, i) => ({
+              id: 'sv_' + i,
+              reviewerName: v.reviewerName,
+              reviewerGroupName: v.reviewerGroup,
+              reviewerGroupId: getGroupIdByName(v.reviewerGroup),
+              targetGroupName: v.targetGroup,
+              targetGroupId: getGroupIdByName(v.targetGroup),
+              scores: v.scores,
+              totalScore: v.totalScore,
+              score100: v.score100,
+              proFeedback: v.proFeedback,
+              conFeedback: v.conFeedback,
+              timestamp: v.timestamp ? new Date(v.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : '-'
+            }));
+          }
+          saveData();
+          renderTeacherDashboard();
+          showToast(`Data terbaru masuk! (${votes.length} suara)`, '✨');
+        }
+      } catch (err) {
+        showToast('Gagal memuat data online.', '⚠️');
+      } finally {
+        if (syncIcon) syncIcon.classList.remove('animate-spin');
+      }
+    }
+
+    function populateDropdowns() {
+      const revGroupSel = document.getElementById('reviewer-group');
+      const targetGroupSel = document.getElementById('target-group');
+      const prevRev = revGroupSel.value;
+      const prevTarget = targetGroupSel.value;
+
+      revGroupSel.innerHTML = '<option value="">-- Pilih Kelompok Asalmu --</option>';
+      groups.forEach(g => {
+        revGroupSel.innerHTML += `<option value="${g.id}">⭐ ${g.name}</option>`;
+      });
+      if (prevRev) revGroupSel.value = prevRev;
+
+      filterTargetGroups(prevTarget);
+    }
+
+    function filterTargetGroups(selectedTargetId = null) {
+      const revGroupId = document.getElementById('reviewer-group').value;
+      const targetGroupSel = document.getElementById('target-group');
+      
+      targetGroupSel.innerHTML = '<option value="">-- Pilih Kelompok yang Dinilai --</option>';
+      groups.forEach(g => {
+        if (g.id !== revGroupId) {
+          targetGroupSel.innerHTML += `<option value="${g.id}">🎯 ${g.name} - ${g.topic || 'Presentasi'}</option>`;
+        }
+      });
+
+      if (selectedTargetId && selectedTargetId !== revGroupId) {
+        targetGroupSel.value = selectedTargetId;
+      }
+      updateTargetGroupInfo();
+    }
+
+    function updateTargetGroupInfo() {
+      const targetId = document.getElementById('target-group').value;
+      const metaContainer = document.getElementById('target-group-meta');
+      if (!targetId) {
+        metaContainer.innerText = '';
+        return;
+      }
+      const g = groups.find(x => x.id === targetId);
+      if (g) {
+        metaContainer.innerText = `👥 Anggota: ${g.members || 'Belum diisi'}`;
+      }
+    }
+
+    function calculateLiveStudentScore() {
+      let total = 0;
+      for (let i = 1; i <= 2; i++) {
+        const checked = document.querySelector(`input[name="crit_${i}"]:checked`);
+        if (checked) {
+          total += parseInt(checked.value, 10);
+        }
+      }
+      document.getElementById('live-total-score').innerText = total;
+      // Konversi skala 100: (total / 8) * 100
+      const scale100 = ((total / 8) * 100).toFixed(1);
+      document.getElementById('live-scale-score').innerText = scale100;
+    }
+
+    async function handlePeerSubmit(e) {
+      e.preventDefault();
+      const reviewerName = document.getElementById('reviewer-name').value.trim();
+      const reviewerGroupId = document.getElementById('reviewer-group').value;
+      const targetGroupId = document.getElementById('target-group').value;
+
+      if (reviewerGroupId === targetGroupId) {
+        showToast('Tidak bisa menilai kelompok sendiri ya!', '🚫');
+        return;
+      }
+
+      const scores = [];
+      let total = 0;
+      for (let i = 1; i <= 2; i++) {
+        const checked = document.querySelector(`input[name="crit_${i}"]:checked`);
+        if (!checked) {
+          showToast(`Mohon beri bintang untuk Kriteria ${i}`, '⭐');
+          return;
+        }
+        const val = parseInt(checked.value, 10);
+        scores.push(val);
+        total += val;
+      }
+
+      const score100 = parseFloat(((total / 8) * 100).toFixed(1));
+      const proFeedback = document.getElementById('feedback-pro').value.trim();
+      const conFeedback = document.getElementById('feedback-con').value.trim();
+
+      const reviewerGroupName = getGroupName(reviewerGroupId);
+      const targetGroupName = getGroupName(targetGroupId);
+
+      const newVote = {
+        id: 'v_' + Date.now(),
+        reviewerName,
+        reviewerGroupId,
+        reviewerGroupName,
+        targetGroupId,
+        targetGroupName,
+        scores,
+        totalScore: total,
+        score100,
+        proFeedback,
+        conFeedback,
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      };
+
+      votes.push(newVote);
+      saveData();
+
+      if (sheetsUrl) {
+        const submitBtnText = document.getElementById('btn-submit-text');
+        submitBtnText.innerText = 'Mengirim...';
+        try {
+          await fetch(sheetsUrl, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify({ action: 'submitVote', vote: newVote })
+          });
+        } catch (err) {
+          console.warn('Sync vote error:', err);
+        } finally {
+          submitBtnText.innerText = 'Kirim Penilaian';
+        }
+      }
+
+      // Ledakan Confetti Bintang!
+      triggerConfetti();
+
+      showToast(`Bintang untuk ${targetGroupName} berhasil dikirim!`, '🌟');
+
+      document.getElementById('peer-form').reset();
+      calculateLiveStudentScore();
+      document.getElementById('target-group-meta').innerText = '';
+      populateDropdowns();
+      renderStudentHistory();
+    }
+
+    function getGroupName(id) {
+      const g = groups.find(x => x.id === id);
+      return g ? g.name : id;
+    }
+
+    function getGroupIdByName(name) {
+      const g = groups.find(x => x.name.toLowerCase() === (name || '').toLowerCase());
+      return g ? g.id : name;
+    }
+
+    function renderStudentHistory() {
+      const container = document.getElementById('student-submitted-list');
+      if (votes.length === 0) {
+        container.innerHTML = '<p class="text-xs text-slate-400 py-3 text-center font-cute">Belum ada penilaian yang dikirim dari perangkat ini.</p>';
+        return;
+      }
+
+      container.innerHTML = votes.slice(-5).reverse().map(v => `
+        <div class="py-2.5 flex items-center justify-between font-cute">
+          <div>
+            <div class="font-bold text-slate-800 text-xs">⭐ ${v.reviewerName} <span class="text-slate-400 font-normal">menilai</span> ${v.targetGroupName || getGroupName(v.targetGroupId)}</div>
+            <div class="text-[11px] text-slate-500">${v.proFeedback ? '"' + v.proFeedback.slice(0, 45) + '..."' : 'Tanpa catatan'} • Pukul ${v.timestamp}</div>
+          </div>
+          <div class="text-right">
+            <span class="inline-block px-2.5 py-1 rounded-xl bg-violet-100 text-violet-800 font-black text-xs">${v.score100} / 100</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // ==================== DASHBOARD GURU & REKAP ====================
+    function updateWeights(val) {
+      const teacherW = parseInt(val, 10);
+      const peerW = 100 - teacherW;
+      config.teacherWeight = teacherW;
+      config.peerWeight = peerW;
+      document.getElementById('weight-teacher-val').innerText = teacherW;
+      document.getElementById('weight-peer-val').innerText = peerW;
+      saveData();
+      renderRecapTable();
+      updateChart();
+    }
+
+    async function handleTeacherScoreChange(groupId, newScore) {
+      const val = parseFloat(newScore);
+      const g = groups.find(x => x.id === groupId);
+      if (g) {
+        g.teacherScore = isNaN(val) ? 0 : Math.min(100, Math.max(0, val));
+        saveData();
+        renderRecapTable();
+        updateChart();
+
+        if (sheetsUrl) {
+          try {
+            fetch(sheetsUrl, {
+              method: 'POST',
+              mode: 'no-cors',
+              headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+              body: JSON.stringify({ action: 'updateTeacherScore', groupId: g.id, teacherScore: g.teacherScore })
+            });
+          } catch(e) {}
+        }
+      }
+    }
+
+    function calculateGroupStats(groupId) {
+      const g = groups.find(x => x.id === groupId);
+      const groupVotes = votes.filter(v => v.targetGroupId === groupId || (g && v.targetGroupName && v.targetGroupName.toLowerCase() === g.name.toLowerCase()));
+      const voteCount = groupVotes.length;
+      let peerAvg = 0;
+      if (voteCount > 0) {
+        const sum = groupVotes.reduce((acc, curr) => acc + curr.score100, 0);
+        peerAvg = parseFloat((sum / voteCount).toFixed(1));
+      }
+      const teacherScore = g && g.teacherScore !== undefined ? g.teacherScore : 0;
+      
+      // Rumus 60% Guru : 40% Teman
+      const finalScore = parseFloat(
+        ((config.teacherWeight / 100 * teacherScore) + (config.peerWeight / 100 * peerAvg)).toFixed(1)
+      );
+
+      let grade = 'D';
+      let badgeClass = 'bg-rose-100 text-rose-700';
+      if (finalScore >= 88) {
+        grade = '🥇 A (Sangat Baik)';
+        badgeClass = 'bg-emerald-100 text-emerald-800';
+      } else if (finalScore >= 78) {
+        grade = '🥈 B (Baik)';
+        badgeClass = 'bg-blue-100 text-blue-800';
+      } else if (finalScore >= 65) {
+        grade = '🥉 C (Cukup)';
+        badgeClass = 'bg-amber-100 text-amber-800';
+      }
+
+      return { voteCount, peerAvg, teacherScore, finalScore, grade, badgeClass };
+    }
+
+    function renderTeacherDashboard() {
+      document.getElementById('weight-slider').value = config.teacherWeight;
+      document.getElementById('weight-teacher-val').innerText = config.teacherWeight;
+      document.getElementById('weight-peer-val').innerText = config.peerWeight;
+
+      document.getElementById('stat-total-groups').innerText = groups.length;
+      document.getElementById('stat-total-votes').innerText = votes.length;
+
+      renderRecapTable();
+      renderFeedbacksList();
+      updateChart();
+    }
+
+    function renderRecapTable() {
+      const tbody = document.getElementById('recap-table-body');
+      if (groups.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" class="py-8 text-center text-xs text-slate-400 font-cute">✨ Belum ada kelompok yang terdaftar. Siswa dapat mendaftarkan kelompoknya di Ruang Siswa!</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = groups.map(g => {
+        const stats = calculateGroupStats(g.id);
+        return `
+          <tr class="hover:bg-violet-50/50 transition-colors">
+            <td class="py-3.5 px-4 font-cute">
+              <div class="font-black text-slate-900 text-sm">⭐ ${g.name}</div>
+              <div class="text-xs text-slate-500 font-sans">${g.topic || 'Belum ada judul'}</div>
+              <div class="text-[11px] text-slate-400 mt-0.5 font-sans">👥 Anggota: ${g.members || '-'}</div>
+            </td>
+            <td class="py-3.5 px-4 text-center">
+              <span class="px-2.5 py-1 text-xs rounded-full font-cute font-bold ${stats.voteCount > 0 ? 'bg-violet-100 text-violet-800' : 'bg-slate-100 text-slate-400'}">
+                ${stats.voteCount} suara
+              </span>
+            </td>
+            <td class="py-3.5 px-4 text-center">
+              <span class="text-sm font-black font-cute text-pink-600">${stats.peerAvg.toFixed(1)}</span>
+            </td>
+            <td class="py-3.5 px-4 text-center">
+              <input type="number" min="0" max="100" value="${stats.teacherScore}" 
+                onchange="handleTeacherScoreChange('${g.id}', this.value)"
+                class="w-20 text-center font-black font-cute px-2 py-1.5 text-sm rounded-xl border-2 border-indigo-200 focus:border-indigo-500 outline-none">
+            </td>
+            <td class="py-3.5 px-4 text-center">
+              <span class="text-base font-black font-cute text-indigo-700">${stats.finalScore.toFixed(1)}</span>
+            </td>
+            <td class="py-3.5 px-4 text-center">
+              <span class="px-3 py-1 text-xs font-black font-cute rounded-xl ${stats.badgeClass}">
+                ${stats.grade}
+              </span>
+            </td>
+            <td class="py-3.5 px-4 text-center no-print">
+              <button onclick="filterFeedbackForGroup('${g.id}')" class="bouncy-btn text-xs text-indigo-600 hover:text-indigo-800 font-cute font-bold underline">
+                Lihat Catatan
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+      lucide.createIcons();
+    }
+
+    function renderFeedbacksList(filterGroupId = null) {
+      const container = document.getElementById('all-feedbacks-container');
+      const g = filterGroupId ? groups.find(x => x.id === filterGroupId) : null;
+      const list = filterGroupId 
+        ? votes.filter(v => v.targetGroupId === filterGroupId || (g && v.targetGroupName && v.targetGroupName.toLowerCase() === g.name.toLowerCase())) 
+        : votes;
+
+      if (list.length === 0) {
+        container.innerHTML = `<p class="text-xs text-slate-400 py-4 text-center font-cute">Belum ada saran atau komentar tertulis.</p>`;
+        return;
+      }
+
+      container.innerHTML = list.map(v => `
+        <div class="p-3.5 rounded-2xl border-2 border-slate-100 bg-white space-y-1.5 font-cute shadow-sm">
+          <div class="flex items-center justify-between text-xs">
+            <span class="font-bold text-slate-800">⭐ ${v.reviewerName} <span class="font-normal text-slate-400">untuk</span> ${v.targetGroupName || getGroupName(v.targetGroupId)}</span>
+            <span class="text-[11px] text-slate-400 font-sans">${v.timestamp} • Skor: <b class="text-pink-600">${v.score100}</b></span>
+          </div>
+          ${v.proFeedback ? `<p class="text-xs text-emerald-800 bg-emerald-50 p-2.5 rounded-xl border border-emerald-100 font-sans">💖 <b>Pujian:</b> ${v.proFeedback}</p>` : ''}
+          ${v.conFeedback ? `<p class="text-xs text-amber-800 bg-amber-50 p-2.5 rounded-xl border border-amber-100 font-sans">💡 <b>Saran:</b> ${v.conFeedback}</p>` : ''}
+        </div>
+      `).join('');
+    }
+
+    function filterFeedbackForGroup(groupId) {
+      renderFeedbacksList(groupId);
+      document.getElementById('all-feedbacks-container').scrollIntoView({ behavior: 'smooth' });
+      showToast(`Menampilkan catatan untuk ${getGroupName(groupId)}`, '💬');
+    }
+
+    function updateChart() {
+      const ctx = document.getElementById('scoreComparisonChart');
+      if (!ctx) return;
+
+      const labels = groups.map(g => g.name);
+      const teacherScores = groups.map(g => calculateGroupStats(g.id).teacherScore);
+      const peerScores = groups.map(g => calculateGroupStats(g.id).peerAvg);
+      const finalScores = groups.map(g => calculateGroupStats(g.id).finalScore);
+
+      if (chartInstance) {
+        chartInstance.destroy();
+      }
+
+      chartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: `Nilai Guru (${config.teacherWeight}%)`,
+              data: teacherScores,
+              backgroundColor: 'rgba(99, 102, 241, 0.85)',
+              borderRadius: 8,
+            },
+            {
+              label: `Nilai Teman (${config.peerWeight}%)`,
+              data: peerScores,
+              backgroundColor: 'rgba(236, 72, 153, 0.85)',
+              borderRadius: 8,
+            },
+            {
+              label: 'Nilai Akhir (NA)',
+              data: finalScores,
+              backgroundColor: 'rgba(16, 185, 129, 0.95)',
+              borderRadius: 8,
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { position: 'top', labels: { font: { family: "'Fredoka', sans-serif", size: 12, weight: 'bold' } } }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 100,
+              grid: { color: 'rgba(226, 232, 240, 0.6)' },
+              ticks: { font: { size: 11, family: "'Fredoka', sans-serif" } }
+            },
+            x: {
+              grid: { display: false },
+              ticks: { font: { size: 12, family: "'Fredoka', sans-serif", weight: 'bold' } }
+            }
+          }
+        }
+      });
+    }
+
+    function exportToCSV() {
+      let csvContent = "data:text/csv;charset=utf-8,";
+      csvContent += "ID Kelompok,Nama Kelompok,Topik Presentasi,Anggota,Jumlah Penilai,Rata-rata Nilai Teman (NT),Nilai Guru (NG),Nilai Akhir (NA),Predikat\r\n";
+
+      groups.forEach(g => {
+        const stats = calculateGroupStats(g.id);
+        const row = [
+          `"${g.id}"`,
+          `"${g.name}"`,
+          `"${(g.topic || '').replace(/"/g, '""')}"`,
+          `"${(g.members || '').replace(/"/g, '""')}"`,
+          stats.voteCount,
+          stats.peerAvg,
+          stats.teacherScore,
+          stats.finalScore,
+          `"${stats.grade}"`
+        ];
+        csvContent += row.join(",") + "\r\n";
+      });
+
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", `Rekap_Nilai_Presentasi_${new Date().toISOString().slice(0,10)}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      showToast("Berhasil mengunduh rekap Excel!", '📊');
+    }
+
+    function openManageGroupsModal() {
+      renderModalGroupsList();
+      document.getElementById('modal-manage-groups').classList.remove('hidden');
+    }
+
+    function closeManageGroupsModal() {
+      document.getElementById('modal-manage-groups').classList.add('hidden');
+      populateDropdowns();
+      renderTeacherDashboard();
+    }
+
+    function renderModalGroupsList() {
+      const container = document.getElementById('modal-groups-list');
+      if (groups.length === 0) {
+        container.innerHTML = `<p class="text-xs text-slate-400 py-2 font-cute">Belum ada kelompok yang terdaftar.</p>`;
+        return;
+      }
+      container.innerHTML = groups.map((g) => `
+        <div class="flex items-center justify-between p-3 rounded-2xl border-2 border-slate-100 bg-white font-cute">
+          <div>
+            <div class="text-xs font-black text-slate-900">⭐ ${g.name} <span class="font-normal text-slate-500">(${g.topic || 'Tanpa Topik'})</span></div>
+            <div class="text-[11px] text-slate-400 font-sans">${g.members || 'Belum ada anggota'}</div>
+          </div>
+          <button onclick="deleteGroup('${g.id}')" class="bouncy-btn text-rose-500 hover:text-rose-700 p-1.5 rounded-xl hover:bg-rose-50">
+            <i data-lucide="trash-2" class="w-4 h-4"></i>
+          </button>
+        </div>
+      `).join('');
+      lucide.createIcons();
+    }
+
+    function handleAddNewGroup(e) {
+      e.preventDefault();
+      const name = document.getElementById('new-group-name').value.trim();
+      const topic = document.getElementById('new-group-topic').value.trim();
+      const members = document.getElementById('new-group-members').value.trim();
+
+      const newGroup = {
+        id: 'g_' + Date.now(),
+        name,
+        topic,
+        members,
+        teacherScore: 80
+      };
+
+      groups.push(newGroup);
+      saveData();
+
+      document.getElementById('new-group-name').value = '';
+      document.getElementById('new-group-topic').value = '';
+      document.getElementById('new-group-members').value = '';
+
+      renderModalGroupsList();
+      showToast(`Kelompok ${name} berhasil ditambah!`, '✨');
+    }
+
+    function deleteGroup(id) {
+      if (confirm('Hapus kelompok ini?')) {
+        groups = groups.filter(g => g.id !== id);
+        votes = votes.filter(v => v.targetGroupId !== id && v.reviewerGroupId !== id);
+        saveData();
+        renderModalGroupsList();
+        showToast('Kelompok dihapus.', '🗑️');
+      }
+    }
+
+    function resetAllDataConfirm() {
+      if (confirm('Hapus SEMUA data kelompok dan nilai agar benar-benar bersih?')) {
+        localStorage.clear();
+        groups = DEFAULT_GROUPS;
+        votes = [];
+        config = { teacherWeight: 60, peerWeight: 40 };
+        sheetsUrl = '';
+        saveData();
+        updateCloudStatusUI();
+        closeManageGroupsModal();
+        showToast('Seluruh data berhasil dibersihkan!', '🧹');
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      populateDropdowns();
+      renderStudentHistory();
+      updateCloudStatusUI();
+      lucide.createIcons();
+    });
+  </script>
+</body>
+</html>
