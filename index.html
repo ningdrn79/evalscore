@@ -818,13 +818,19 @@
     const STORAGE_KEY_SHEETS_URL = 'eval_sheets_url';
 
     // Link Google Sheets Guru Permanen
-    const DEFAULT_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbwwZN6WDG22COlgQY-dY5UY754HZtECM_rKVuD4LXUrL4WDiV5c5MSBBkcSazy2C88B2Q/exec';
+    const DEFAULT_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbyg0l8lGWSnCVgpYABeP7uHRAdPOdIOYnbsJvH60nsdhHXTCEwPFj7_UkOy4Jd9aWxLQA/exec';
 
     let currentClass = localStorage.getItem(STORAGE_KEY_CURRENT_CLASS) || '6A';
     let groups = JSON.parse(localStorage.getItem(STORAGE_KEY_GROUPS)) || [];
     let votes = JSON.parse(localStorage.getItem(STORAGE_KEY_VOTES)) || [];
     let config = JSON.parse(localStorage.getItem(STORAGE_KEY_CONFIG)) || { teacherWeight: 60, peerWeight: 40 };
-    let sheetsUrl = localStorage.getItem(STORAGE_KEY_SHEETS_URL) || DEFAULT_SHEETS_URL;
+    
+    let storedUrl = localStorage.getItem(STORAGE_KEY_SHEETS_URL);
+    if (!storedUrl || storedUrl.includes('AKfycbxOHTJ0tv8lMxm7QGBVWC3k8uYFZ9ykH') || storedUrl.includes('AKfycbwwZN6WDG22COlgQY')) {
+      storedUrl = DEFAULT_SHEETS_URL;
+      localStorage.setItem(STORAGE_KEY_SHEETS_URL, DEFAULT_SHEETS_URL);
+    }
+    let sheetsUrl = storedUrl;
 
     let chartInstance = null;
 
