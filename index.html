@@ -664,7 +664,7 @@
       <div class="flex items-center justify-between pb-3 border-b-2 border-slate-100">
         <div class="flex items-center space-x-2">
           <span class="text-2xl">📊</span>
-          <h3 class="text-lg font-black font-cute text-slate-900">Koneksi Google Sheets Terpusat</h3>
+          <h3 class="text-lg font-black font-cute text-slate-900">Koneksi Realtime Google Sheets</h3>
         </div>
         <button onclick="closeCloudModal()" class="bouncy-btn text-slate-400 hover:text-slate-600 p-1">
           <i data-lucide="x" class="w-5 h-5"></i>
@@ -672,20 +672,29 @@
       </div>
 
       <div class="text-xs text-slate-600 space-y-2 bg-emerald-50 border-2 border-emerald-200 p-4 rounded-2xl">
-        <p class="font-cute font-bold text-emerald-900 text-sm">Status Database Otomatis Aktif</p>
-        <p>Seluruh suara dari 5 kelas (6A, 6B, 6C, 6D, 6E) akan langsung masuk dan tersimpan terpusat ke Spreadsheet Anda!</p>
+        <p class="font-cute font-bold text-emerald-900 text-sm">Sinkronisasi Otomatis Antar Komputer / HP</p>
+        <p>Saat kamu mendaftarkan kelompok baru di satu komputer, seluruh komputer dan HP lain akan <b>otomatis ter-update dalam beberapa detik secara realtime</b>!</p>
       </div>
 
       <div class="space-y-3">
         <label class="block text-xs font-cute font-bold text-slate-700 uppercase">URL Web App Google Apps Script</label>
-        <input type="url" id="sheets-web-app-url" value="https://script.google.com/macros/s/AKfycbxOHTJ0tv8lMxm7QGBVWC3k8uYFZ9ykH_JR7Q51eaokxycP0EIRqOqAHoSvb980a2-c/exec" class="w-full px-4 py-3 text-xs rounded-2xl border-2 border-slate-200 outline-none focus:border-emerald-500 font-mono" readonly>
-        <p class="text-[11px] text-emerald-700 font-cute font-bold">✓ Link Google Sheets Guru sudah terpasang permanen.</p>
+        <input type="url" id="sheets-web-app-url" placeholder="https://script.google.com/macros/s/.../exec" class="w-full px-4 py-3 text-xs rounded-2xl border-2 border-slate-200 outline-none focus:border-violet-500 font-mono">
+        <p class="text-[11px] text-slate-500 font-cute">Pastikan URL deployment Apps Script berakhiran <code class="bg-slate-100 px-1 py-0.5 rounded text-violet-700">/exec</code> dengan hak akses <b>Siapa saja (Anyone)</b>.</p>
       </div>
 
-      <div class="flex items-center justify-end pt-3 border-t-2 border-slate-100">
-        <button onclick="closeCloudModal()" class="bouncy-btn px-6 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-2xl text-xs font-cute font-bold">
-          Tutup
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-2 pt-3 border-t-2 border-slate-100">
+        <button type="button" onclick="testCloudConnection()" id="btn-test-cloud" class="bouncy-btn w-full sm:w-auto px-4 py-2.5 bg-violet-100 hover:bg-violet-200 text-violet-800 rounded-2xl text-xs font-cute font-bold flex items-center justify-center space-x-1.5">
+          <span>🔄</span>
+          <span>Uji Sambungan</span>
         </button>
+        <div class="flex items-center space-x-2 w-full sm:w-auto justify-end">
+          <button type="button" onclick="closeCloudModal()" class="bouncy-btn px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-2xl text-xs font-cute font-bold">
+            Tutup
+          </button>
+          <button type="button" onclick="saveCloudUrl()" class="bouncy-btn px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl text-xs font-cute font-bold shadow-md shadow-emerald-200">
+            Simpan & Hubungkan 💾
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -815,7 +824,7 @@
     let groups = JSON.parse(localStorage.getItem(STORAGE_KEY_GROUPS)) || [];
     let votes = JSON.parse(localStorage.getItem(STORAGE_KEY_VOTES)) || [];
     let config = JSON.parse(localStorage.getItem(STORAGE_KEY_CONFIG)) || { teacherWeight: 60, peerWeight: 40 };
-    let sheetsUrl = DEFAULT_SHEETS_URL;
+    let sheetsUrl = localStorage.getItem(STORAGE_KEY_SHEETS_URL) || DEFAULT_SHEETS_URL;
 
     let chartInstance = null;
 
@@ -1073,6 +1082,7 @@
 
       triggerConfetti();
       showToast(`Hore! ${name} (${targetClass}) berhasil didaftarkan!`, '🎉');
+      setTimeout(() => syncFromGoogleSheets(true), 1200);
       toggleStudentSubMode('vote');
     }
 
@@ -1100,12 +1110,79 @@
       }
     }
 
+    function updateCloudStatus(isOnline) {
+      const badge = document.getElementById('cloud-status-badge');
+      const dot = document.getElementById('cloud-dot');
+      const text = document.getElementById('cloud-text');
+      if (!badge || !dot || !text) return;
+
+      if (isOnline) {
+        badge.className = 'hidden sm:flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-bold border-2 transition border-emerald-200 bg-emerald-50 text-emerald-800 hover:border-emerald-300 font-cute';
+        dot.className = 'w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse';
+        text.innerText = 'Sheets: Realtime Aktif 🟢';
+      } else {
+        badge.className = 'hidden sm:flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-bold border-2 transition border-amber-200 bg-amber-50 text-amber-800 hover:border-amber-300 font-cute';
+        dot.className = 'w-2.5 h-2.5 rounded-full bg-amber-500';
+        text.innerText = 'Sheets: Cek Sambungan ⚠️';
+      }
+    }
+
     function openCloudModal() {
+      const input = document.getElementById('sheets-web-app-url');
+      if (input) input.value = sheetsUrl;
       document.getElementById('modal-cloud-setup').classList.remove('hidden');
     }
 
     function closeCloudModal() {
       document.getElementById('modal-cloud-setup').classList.add('hidden');
+    }
+
+    function saveCloudUrl() {
+      const input = document.getElementById('sheets-web-app-url');
+      const newUrl = (input ? input.value : '').trim();
+      if (!newUrl) {
+        showToast('Masukkan URL Web App Google Apps Script!', '⚠️');
+        return;
+      }
+      if (!newUrl.startsWith('https://script.google.com/macros/s/') || !newUrl.includes('/exec')) {
+        if (!confirm('URL tampaknya bukan URL Web App Google Apps Script (/exec). Apakah tetap ingin menyimpan?')) {
+          return;
+        }
+      }
+      sheetsUrl = newUrl;
+      localStorage.setItem(STORAGE_KEY_SHEETS_URL, sheetsUrl);
+      showToast('URL Google Sheets berhasil disimpan!', '💾');
+      closeCloudModal();
+      syncFromGoogleSheets(false);
+    }
+
+    async function testCloudConnection() {
+      const input = document.getElementById('sheets-web-app-url');
+      const urlToTest = (input ? input.value : '').trim();
+      if (!urlToTest) {
+        showToast('Masukkan URL terlebih dahulu!', '⚠️');
+        return;
+      }
+      const btn = document.getElementById('btn-test-cloud');
+      const origText = btn ? btn.innerHTML : '';
+      if (btn) btn.innerHTML = '<span>⏳ Menguji...</span>';
+      try {
+        const data = await requestGoogleSheets(urlToTest);
+        if (data && data.status === 'success') {
+          const gCount = (data.groups || []).length;
+          const vCount = (data.votes || []).length;
+          showToast(`Koneksi Sukses! Ditemukan ${gCount} kelompok & ${vCount} penilaian di Google Sheets.`, '✅');
+          updateCloudStatus(true);
+        } else {
+          showToast('Terhubung, namun format data tidak cocok dengan script penilaian.', '⚠️');
+          updateCloudStatus(false);
+        }
+      } catch (err) {
+        showToast('Gagal terhubung. Pastikan URL benar & hak akses Siapa Saja (Anyone)!', '❌');
+        updateCloudStatus(false);
+      } finally {
+        if (btn) btn.innerHTML = origText;
+      }
     }
 
     function requestGoogleSheets(url) {
@@ -1121,11 +1198,11 @@
               .then(resolve)
               .catch(reject);
           }
-        }, 5000);
+        }, 6000);
 
         function cleanUp() {
           clearTimeout(timeout);
-          if (script.parentNode) script.parentNode.removeChild(script);
+          if (script && script.parentNode) script.parentNode.removeChild(script);
           delete window[cbName];
         }
 
@@ -1153,18 +1230,59 @@
       });
     }
 
-    async function syncFromGoogleSheets() {
+    let isSyncing = false;
+    let realtimeTimer = null;
+
+    async function syncFromGoogleSheets(isSilent = false) {
+      if (isSyncing) return;
+      isSyncing = true;
       const syncIcon = document.getElementById('sync-icon');
-      if (syncIcon) syncIcon.classList.add('animate-spin');
+      if (syncIcon && !isSilent) syncIcon.classList.add('animate-spin');
 
       try {
         const data = await requestGoogleSheets(sheetsUrl);
         if (data && data.status === 'success') {
-          if (data.groups && data.groups.length > 0) {
-            groups = data.groups;
+          updateCloudStatus(true);
+          let hasNewGroup = false;
+          let newGroupName = '';
+
+          // 1. SINKRONISASI DAFTAR KELOMPOK
+          if (Array.isArray(data.groups)) {
+            const existingIds = new Set(groups.map(g => g.id));
+            const freshGroups = data.groups.map(g => ({
+              ...g,
+              className: g.className || '6A'
+            }));
+
+            for (const fg of freshGroups) {
+              if (!existingIds.has(fg.id)) {
+                hasNewGroup = true;
+                newGroupName = fg.name;
+              }
+            }
+
+            // Pertahankan kelompok lokal yang baru dibuat (<30 detik) agar tidak hilang sebelum tersimpan di cloud
+            const now = Date.now();
+            const pendingLocal = groups.filter(g => {
+              const created = parseInt((g.id || '').replace('g_', ''), 10) || 0;
+              return (now - created < 30000) && !freshGroups.some(fg => fg.id === g.id);
+            });
+
+            const mergedGroups = [...freshGroups, ...pendingLocal];
+            const groupsChanged = JSON.stringify(groups) !== JSON.stringify(mergedGroups);
+
+            if (groupsChanged) {
+              groups = mergedGroups;
+              saveData();
+              populateDropdowns();
+              renderModalGroupsList();
+              renderTeacherDashboard();
+            }
           }
-          if (data.votes) {
-            votes = data.votes.map((v, i) => ({
+
+          // 2. SINKRONISASI SUARA PENILAIAN
+          if (Array.isArray(data.votes)) {
+            const mappedVotes = data.votes.map((v, i) => ({
               id: 'sv_' + i,
               className: v.className || '6A',
               reviewerName: v.reviewerName,
@@ -1179,19 +1297,55 @@
               conFeedback: v.conFeedback,
               timestamp: v.timestamp ? new Date(v.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : '-'
             }));
+
+            const votesChanged = JSON.stringify(votes) !== JSON.stringify(mappedVotes);
+            if (votesChanged) {
+              votes = mappedVotes;
+              saveData();
+              renderStudentHistory();
+              renderTeacherDashboard();
+            }
           }
-          saveData();
-          populateDropdowns();
-          renderStudentHistory();
-          renderTeacherDashboard();
-          showToast(`Data kelas terbaru berhasil ditarik!`, '✨');
+
+          if (!isSilent) {
+            showToast('Data terbaru berhasil diperbarui dari Google Sheets!', '✨');
+          } else if (hasNewGroup && newGroupName) {
+            showToast(`Kelompok baru terdeteksi: ${newGroupName}!`, '👥');
+          }
+        } else {
+          updateCloudStatus(false);
+          if (!isSilent) {
+            showToast('Format respon Sheets tidak cocok. Buka pengaturan Sheets!', '⚠️');
+          }
         }
       } catch (err) {
-        console.warn(err);
+        console.warn('Sync warning:', err);
+        updateCloudStatus(false);
+        if (!isSilent) {
+          showToast('Tidak dapat terhubung ke Google Sheets.', '❌');
+        }
       } finally {
+        isSyncing = false;
         if (syncIcon) syncIcon.classList.remove('animate-spin');
       }
     }
+
+    // Timer Sinkronisasi Realtime Otomatis Tiap 5 Detik
+    function startRealtimeSync() {
+      if (realtimeTimer) clearInterval(realtimeTimer);
+      realtimeTimer = setInterval(() => {
+        if (!document.hidden && !isSyncing) {
+          syncFromGoogleSheets(true);
+        }
+      }, 5000);
+    }
+
+    // Sinkronkan langsung saat tab peramban dibuka kembali
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden) {
+        syncFromGoogleSheets(true);
+      }
+    });
 
     // Mendapatkan kelompok KHUSUS kelas aktif
     function getCurrentClassGroups() {
@@ -1813,7 +1967,7 @@
       lucide.createIcons();
     }
 
-    function handleAddNewGroup(e) {
+    async function handleAddNewGroup(e) {
       e.preventDefault();
       const name = document.getElementById('new-group-name').value.trim();
       const topic = document.getElementById('new-group-topic').value.trim();
@@ -1831,6 +1985,18 @@
       groups.push(newGroup);
       saveData();
 
+      // Kirim ke Google Sheets agar komputer / HP lain dapat melihat secara realtime
+      try {
+        await fetch(sheetsUrl, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ action: 'registerGroup', group: newGroup })
+        });
+      } catch (err) {
+        console.warn('Sync offline:', err);
+      }
+
       document.getElementById('new-group-name').value = '';
       document.getElementById('new-group-topic').value = '';
       document.getElementById('new-group-members').value = '';
@@ -1839,17 +2005,32 @@
       populateDropdowns();
       renderTeacherDashboard();
       showToast(`Kelompok ${name} ditambahkan ke Kelas ${currentClass}!`, '✨');
+      setTimeout(() => syncFromGoogleSheets(true), 1200);
     }
 
-    function deleteGroup(id) {
+    async function deleteGroup(id) {
       if (confirm('Hapus kelompok ini?')) {
         groups = groups.filter(g => g.id !== id);
         votes = votes.filter(v => v.targetGroupId !== id && v.reviewerGroupId !== id);
         saveData();
+
+        // Hapus dari Google Sheets agar tersinkronisasi ke komputer lain
+        try {
+          await fetch(sheetsUrl, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify({ action: 'deleteGroup', groupId: id })
+          });
+        } catch (err) {
+          console.warn('Sync delete offline:', err);
+        }
+
         renderModalGroupsList();
         populateDropdowns();
         renderTeacherDashboard();
         showToast('Kelompok dihapus.', '🗑️');
+        setTimeout(() => syncFromGoogleSheets(true), 1200);
       }
     }
 
@@ -1870,6 +2051,7 @@
       updateLockBadge();
       lucide.createIcons();
       syncFromGoogleSheets();
+      startRealtimeSync();
     });
   </script>
 </body>
