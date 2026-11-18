@@ -18,8 +18,23 @@
  * 9. Salin URL Aplikasi Web yang berakhiran "/exec", lalu tempelkan ke aplikasi web Anda melalui tombol "Sheets" di pojok kanan atas!
  */
 
+// ID Spreadsheet Anda (otomatis terhubung baik via Ekstensi maupun mandiri):
+var SPREADSHEET_ID = "1DVfz2DsqEiQTqjPZQiRH6TfcylKtYTjwew5cJswoTFY";
+
+function getSpreadsheet() {
+  try {
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    if (ss) return ss;
+  } catch (e) {}
+  try {
+    return SpreadsheetApp.openById(SPREADSHEET_ID);
+  } catch (e) {
+    throw new Error("Gagal membuka Spreadsheet: " + e.toString());
+  }
+}
+
 function setupSheets() {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = getSpreadsheet();
   
   // Sheet 1: Penilaian_Siswa (11 Kolom termasuk Kelas)
   var sheetVotes = ss.getSheetByName("Penilaian_Siswa");
@@ -71,7 +86,7 @@ function setupSheets() {
 // Menangani permintaan GET (untuk membaca data suara dan daftar kelompok ke aplikasi web)
 function doGet(e) {
   setupSheets();
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = getSpreadsheet();
   var action = (e && e.parameter && e.parameter.action) ? e.parameter.action : "getData";
   var callback = (e && e.parameter && e.parameter.callback) ? e.parameter.callback : null;
 
@@ -178,7 +193,7 @@ function doGet(e) {
 // Menangani permintaan POST (saat siswa mendaftarkan kelompok baru, mengirim nilai, atau guru mengubah nilai)
 function doPost(e) {
   setupSheets();
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = getSpreadsheet();
   
   try {
     var data = JSON.parse(e.postData.contents);
